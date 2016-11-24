@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+
+<!--
+Autor: Wolmir Nemitz
+Biblioteca usada: W3-html, w3-css
+-->
+
+<html lang="pt-br">
+	<head>
+		<title>Atestados SEG</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="./css/w3.css" />
+		<link rel="stylesheet" href="./css/w3-theme-green.css" />
+		<link rel="stylesheet" href="./fonts/css/font-awesome.css" />
+		
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+			}
+
+			#bn-sistema-wrapper {
+				min-height: 100%;
+				position: relative;
+			}
+
+			#bn-sistema-conteudo {
+				padding-bottom: 3em;
+			}
+
+			#bn-sistema-footer {
+				width: 100%;
+				position: fixed;
+				height: 3em;
+				bottom: 0;
+				left: 0;
+			}
+
+			.w3-myfont {
+				font-family: 'Roboto', sans-serif
+			}
+
+			.w3-my-italic-font {
+				font-family: 'Roboto', sans-serif;
+				font-weight: 300;
+				font-style: italic;
+			}
+		</style>
+
+	</head>
+	<body>
+
+		<!-- Construção do Menu -->
+<div id="bn-sistema-wrapper">
+		<section class="w3-row">
+			<div class="w3-myfont">
+
+				<ul class="w3-navbar w3-theme-d4 w3-card-4 w3-left-align w3-large">
+					<li>
+						<a href="#" class="w3-padding-large w3-theme-l5">
+							<img src="./images/logo_trans.png" alt="Logo Unipampa" style="width:60px;"> 
+							
+						</a>
+					</li>
+					
+					<li class="w3-center">
+						<br>
+						<span class="w3-large" style="margin-left:10px;"> Sistema de Extensão Gerenciado</span>
+					</li>
+
+					<li class="w3-hide-small w3-right" style="margin-right:2%">
+						<a href="#/logout" class="w3-padding-large w3-hover-white" title="Log Out"> 
+							<i class="fa fa-sign-out  w3-xlarge" style="color:#000000 !important; margin-top:0.3em"></i>
+						</a>
+					</li>
+					<li class="w3-hide-small w3-right">
+						<a href="#/Bloqueio" class="w3-padding-large w3-hover-white" title="Bloquear"> <i class="fa fa-expeditedssl  w3-xlarge" style="color:#000000 !important; margin-top:0.3em"></i> </a>
+					</li>
+				</ul>
+
+			</div>
+		<div id="bn-sistema-conteudo">
+				<nav class="w3-sidenav w3-theme-d1 w3-card-8 w3-large" style="width:20%">
+					<header class="w3-container w3-theme-d4">
+						<h5 style="margin-left:4%; margin-top:3%; margin-bottom:2%">Menu SEG</h5>
+					</header>
+					<div style="margin-left:13%; margin-top:2em">
+						<a href="atestado.html"><span class="fa fa-file-word-o" style="color:#000000; margin-bottom:1em"></span> Atestados</a>
+
+						<a href="relatorios.html"><span class="fa fa-file-text-o"  style="color:#000000; margin-bottom:1em"></span> Relatórios</a>
+					</div>
+				</nav>
+			
+
+			<!-- Construção da Página Gerar Atestados -->
+			<section class="w3-container w3-row" style="margin-left: 21%">
+				<section class="w3-section w3-card-16 w3-col l12 m12 s12">
+					<header class="w3-container w3-theme-d4 w3-padding">
+						<h3>Gerar Atestados</h3>
+					</header>
+					<section class="w3-row" style="margin-bottom:0.5%; margin-top:5em">
+						<section class="w3-col l1 m1 w3-hide-small">
+							<p></p>
+						</section>
+						<section class="w3-col l10 m10 s12">
+							<section class="w3-section">
+								<label class="w3-label" style="color:#000000"> Nome do Aluno </label>
+								<input class="w3-input" type="text"/>
+							</section>
+							<section class="w3-section" style="margin-top: 2em !important">
+								<label class="w3-label" style="color:#000000"> Matrícula </label>
+								<input class="w3-input" type="text"/>
+							</section>
+							<section class="w3-section" style="margin-top: 2em !important">
+								<label class="w3-label" style="color:#000000"> Projeto </label>
+								<input class="w3-input" type="text"/>
+							</section>
+							<section class="w3-section" style="margin-top: 2em !important">
+								<label class="w3-label" style="color:#000000"> Descrição </label>
+								<textarea class="w3-input" rows="6"></textarea>
+							</section>
+							<section class="w3-section" style="margin-top: 2em !important">
+								<label class="w3-label" style="color:#000000"> Local </label>
+								<input class="w3-input" type="text"/>
+							</section>
+							<section class="w3-section" style="margin-top: 2em !important">
+								<label class="w3-label" style="color:#000000"> Data </label>
+								<input class="w3-input" type="text"/>
+							</section>
+							<section class="w3-section" style="margin-top: 2em !important">
+								<label class="w3-label" style="color:#000000"> Coordenador </label>
+								<input class="w3-input" type="text"/>
+							</section>
+							<section class="w3-center" style="margin-top: 1em; margin-bottom: 4em">
+								<button class="w3-btn w3-theme-d1 w3-hover-grey w3-margin" >
+									<i class="fa fa-edit w3-large" style="color:#000000"> </i> Editar
+								</button>
+								<button class="w3-btn w3-theme-d1 w3-hover-grey w3-margin" >
+									<i class="fa fa-trash w3-large" style="color:#000000"> </i> Excluir
+								</button>
+								<button class="w3-btn w3-theme-d1 w3-hover-grey w3-margin" >
+									<i class="fa fa-file w3-large"style="color:#000000"> </i> Carregar Modelo
+								</button>
+							</section>
+							<section class="w3-section">
+								<header class="w3-container w3-theme-d4">
+									<h3>Pré-Visualização</h3>
+								</header>
+								
+								<article>
+								<header>
+									<h2></h2>
+								</header>
+								<span><img src="./images/logo.png" alt="Logo Unipampa">
+									<p style="margin-top: -7em; margin-left: 20em; font-size: 0.8em; text-align:justify">MINISTÉRIO DA EDUCAÇÃO </br>
+									FUNDAÇÃO UNIVERSIDADE FEDERAL DO PAMPA </br>
+									CAMPUS ALEGRETE/RS </br>
+									PROGRMA C (Esse detalhe precisa ser capturado)
+								</p></span>
+								<section class="w3-center w3-margin" style="margin-top: 5em !important">
+								<h3>ATESTADO</h3>
+								<p>
+									nabjksajkgbsjkxghwbjmasbjkabfjkgbfnvbxzmnf szhjxmbfszjhxvb
+									 dxnmbzx vhnszb xvcn zxvnmsbz xvnmsb zcbnxzb cnb dcnx
+									 nbhjbfshbfshbfxjhnbfszj,mfasbzjksajfbhf
+									 gbfjshbfskjngk,hklgs,ahlkg.sjlçgaklghjkasfjkhasjkhgjkgjkg
+								</p>
+								
+								</section>
+							</article>
+								<section class="w3-center" style="margin-top: 3em !important">
+									<button class="w3-btn w3-theme-d1 w3-hover-grey w3-margin " >
+										<i class="fa fa-save w3-large" style="color:#000000"> </i> Salvar
+									</button>
+									<button class="w3-btn w3-theme-d1 w3-hover-grey w3-margin" >
+										<i class="fa fa-print w3-large" style="color:#000000"> </i> imprimir
+									</button>
+								</section>
+							</section>
+							</section>
+							<section class="w3-row" style="margin-bottom:0.5%; margin-top:5em">
+								<section class="w3-col l1 m1 w3-hide-small">
+									<p> </p>
+								</section>
+							</section>
+						</section>
+					
+				<footer class="w3-container w3-center w3-theme-d4 w3-text-white-opacity" style="height: 3em">
+					<p class="w3-tiny"></p>
+				</footer>
+					</div>
+					</section>
+					</div>
+	</body>
+</html>
