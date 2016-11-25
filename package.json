@@ -13,5 +13,14 @@
     "Atestados"
   ],
   "author": "Wolmir Nemitz",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.0.1",
+    "jasmine": "^2.5.2",
+    "webpack": "^1.13.3",
+    "webpack-archive-plugin": "^2.0.0"
+  },
+  "dependencies": {
+    "ramda": "^0.22.1"
+  }
 }
