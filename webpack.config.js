@@ -51,7 +51,7 @@ else if (config.ambiente === 'DESENVOLVIMENTO') {
 
 		plugins: [
 			new CopyWebpackPlugin([
-				{from: __dirname + '/lib', to:'lib'}
+				{from: __dirname + '/app/assets', to:'assets'}
 			])
 		]
 	};
