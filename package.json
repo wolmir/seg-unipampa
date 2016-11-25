@@ -1,0 +1,17 @@
+{
+  "name": "seg-unipampa",
+  "version": "0.0.1",
+  "description": "Sistema de Extensão Gerenciado",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "keywords": [
+    "SEG",
+    "Unipampa",
+    "Extensão",
+    "Atestados"
+  ],
+  "author": "Wolmir Nemitz",
+  "license": "ISC"
+}
