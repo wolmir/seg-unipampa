@@ -22,6 +22,9 @@
     "webpack-archive-plugin": "^2.0.0"
   },
   "dependencies": {
-    "ramda": "^0.22.1"
+    "@cycle/dom": "^14.1.0",
+    "@cycle/xstream-run": "^3.1.0",
+    "ramda": "^0.22.1",
+    "xstream": "^8.0.0"
   }
 }
