@@ -40,6 +40,14 @@ else if (config.ambiente === 'DESENVOLVIMENTO') {
 			filename: 'app.bundle.js'
 		},
 
+		module: {
+			loaders: [{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader'
+			}]
+		},
+
 		resolve: {
 			root: path.resolve(__dirname),
 			alias: {
