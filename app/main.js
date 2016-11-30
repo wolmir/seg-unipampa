@@ -43,20 +43,21 @@ function TopNav(sources) {
 	const state$ = sources.props.remember();
 
 	const iconActionsDOM$ = state$
-		.map(state =>
-			const actionDom$$  = state.actions.map(action => {
-				const actionProp$ = xs.of(action);
-				const actionSources = {DOM: sources.DOM, props: actionProps$};
-				return IconAction(actionSources).DOM;
-			});
+		.map(state => {
+				const actionDom$$  = state.actions.map(action => {
+					const actionProp$ = xs.of(action);
+					const actionSources = {DOM: sources.DOM, props: actionProps$};
+					return IconAction(actionSources).DOM;
+				});
 
-			return xs.combine(actionDom$$)
-				.map(actionDoms => actionDoms.map(ad => li('.w3-hide-small.w3-right', [ad])));
+				return xs.combine(actionDom$$)
+					.map(actionDoms => actionDoms.map(ad => li('.w3-hide-small.w3-right', [ad])));
+			}
 		)
 		.flatten();
 
-	const vdom$ = state$
-		.map(state => 
+	const vdom$ = xs.combine(state$, iconActionsDOM$)
+		.map([state, iconActionDoms] => 
 			div([
 				ul('.w3-navbar.w3-theme-d4.w3-card-4.w3-left-align.w3-large', [
 					li([
@@ -75,9 +76,13 @@ function TopNav(sources) {
 						br(),
 						span('.w3-large', {style: {'margin-left': '10px', 'font-style': 'italic'}}, state.appTitle)
 					])
-				].concat(actions.map()))
+				].concat(iconActionDoms))
 			])
 		);
+
+	return {
+		DOM: vdom$
+	};
 }
 
 
@@ -131,6 +136,9 @@ var viewTable = function() {
 };
 
 function main() {
+	const topNavProp$ = xs.of({
+
+	});
 	return {
 		DOM: xs.of(
 			div('#bn-sistema-wrapper', [
