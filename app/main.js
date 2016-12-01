@@ -1,89 +1,9 @@
 'use strict';
 import xs from 'xstream';
 import {run} from '@cycle/xstream-run';
-import {div, section, ul, li, a, img, br, span, i, nav, header, h5, h3, label, input, table, th, td, tr, thead, tbody, button, footer, makeDOMDriver} from '@cycle/dom';
-
-var viewMenuTopo = function() {
-	return div([
-				ul('.w3-navbar.w3-theme-d4.w3-card-4.w3-left-align.w3-large', [
-					li([
-						a('.w3-padding-large.w3-theme-l5', [
-							img({
-								props: {
-									src: './assets/images/logo_trans.png',
-									alt: 'Logo Unipampa'
-								},
-								style: {width: '60px'}
-							}, [])
-						])
-					]),
-
-					li('.w3-center', [
-						br(),
-						span('.w3-large', {style: {'margin-left': '10px', 'font-style': 'italic'}}, ['Sistema de Extensão Gerenciado'])
-					]),
-
-					li('.w3-hide-small.w3-right', [
-						a('.w3-padding-large.w3-hover-white', {props: {title: 'Log Out'}}, [
-							i('.fa.fa-sign-out.w3-xlarge', {style: {color: '#000000 !important', 'margin-top': '0.3em'}})
-						])
-					]),
-
-					li('.w3-hide-small.w3-right', [
-						a('.w3-padding-large.w3-hover-white', {props: {title: 'Bloquear'}}, [
-							i('.fa.fa-expeditedssl.w3-xlarge', {style: {color: '#000000 !important', 'margin-top': '0.3em'}})
-						])
-					])
-				])
-			]);
-};
-
-
-function TopNav(sources) {
-	const state$ = sources.props.remember();
-
-	const iconActionsDOM$ = state$
-		.map(state => {
-				const actionDom$$  = state.actions.map(action => {
-					const actionProp$ = xs.of(action);
-					const actionSources = {DOM: sources.DOM, props: actionProps$};
-					return IconAction(actionSources).DOM;
-				});
-
-				return xs.combine(actionDom$$)
-					.map(actionDoms => actionDoms.map(ad => li('.w3-hide-small.w3-right', [ad])));
-			}
-		)
-		.flatten();
-
-	const vdom$ = xs.combine(state$, iconActionsDOM$)
-		.map([state, iconActionDoms] => 
-			div([
-				ul('.w3-navbar.w3-theme-d4.w3-card-4.w3-left-align.w3-large', [
-					li([
-						a('.w3-padding-large.w3-theme-l5', [
-							img({
-								props: {
-									src: state.appIcon.src,
-									alt: state.appIcon.alt
-								},
-								style: {width: state.appIcon.width}
-							})
-						])
-					]),
-
-					li('.w3-center', [
-						br(),
-						span('.w3-large', {style: {'margin-left': '10px', 'font-style': 'italic'}}, state.appTitle)
-					])
-				].concat(iconActionDoms))
-			])
-		);
-
-	return {
-		DOM: vdom$
-	};
-}
+import {div, section, a, span, i, nav, header, h5, h3, label, input, table, th, td, tr, thead, tbody, button, footer, makeDOMDriver} from '@cycle/dom';
+import TopNav from './top-nav.component';
+import SideNav from './side-nav.component';
 
 
 var viewNav = function() {
@@ -135,17 +55,49 @@ var viewTable = function() {
 			]);
 };
 
-function main() {
+function main(sources) {
 	const topNavProp$ = xs.of({
-
+		appIcon: {
+			src: './assets/images/logo_trans.png',
+			alt: 'Logo Unipampa',
+			width: '60px'
+		},
+		appTitle: 'Sistema de Extensão Gerenciado'
 	});
+
+	const topNavActions$ = xs.of([]);
+
+	const topNav = TopNav({DOM: sources.DOM, props: topNavProp$, actions: topNavActions$});
+	const topNavDom$ = topNav.DOM;
+
+	const sideNavProp$ = xs.of({
+		title: 'SEG Menu'
+	});
+
+	const sideNavOption$ = xs.of([
+		{
+			icon: 'fa-file-word-o',
+			label: 'Atestados'
+		},
+
+		{
+			icon: 'fa-file-text-o',
+			label: 'Relatórios'
+		}
+	]);
+
+	const sideNav = SideNav({DOM: sources.DOM, props: sideNavProp$, options: sideNavOption$});
+	const sideNavDom$ = sideNav.DOM;
+
 	return {
-		DOM: xs.of(
+		DOM: xs.combine(topNavDom$, sideNavDom$).map(([topNavDom, sideNavDom]) =>
 			div('#bn-sistema-wrapper', [
 				section('.w3-row', [
-					viewMenuTopo(),
+					topNavDom,
+					// viewMenuTopo(),
 					div('#bn-sistema-conteudo', [
-						viewNav(),
+						// viewNav(),
+						sideNavDom,
 						section('.w3-container.w3-row', {style:{'margin-left': '20%'}}, [
 							section('.w3-section.w3-card-16.w3-col.l12.m12.s12', [
 								header('.w3-container.w3-theme-d4.w3-padding', [
