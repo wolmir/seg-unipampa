@@ -31,7 +31,6 @@ var viewInputPesquisa = function() {
 };
 
 var viewTable = function(columns, data, actions) {
-	console.log('viewTable >> ', data);
 	return table('.w3-table.w3-bordered.w3-striped.w3-hoverable', [
 				thead([
 					tr('.w3-theme-d1', columns.map(column => th(column.label)).concat([th('Ações')]))
@@ -52,18 +51,6 @@ var viewTable = function(columns, data, actions) {
 						)
 					)
 				)
-				// tbody([
-				// 	tr([
-				// 		td('Juliano'),
-				// 		td('1115143068'),
-				// 		td('Programa'),
-				// 		td('Aline'),
-				// 		td([
-				// 			button('.w3-btn.w3-red', [i('.fa.fa-trash')]),
-				// 			button('.w3-btn.w3-dark-grey.w3-hover-cyan', [i('.fa.fa-edit')])
-				// 		]),
-				// 	])
-				// ])
 			]);
 };
 
@@ -71,7 +58,7 @@ let _DataGrid = function(sources) {
 	const props$ = sources.props;
 	const columns$ = sources.columns.remember();
 	const actions$ = sources.actions.remember();
-	const data$ = sources.data.fold((acc, d) => acc.concat([d]), []).debug();
+	const data$ = sources.data.fold((acc, d) => acc.concat([d]), []);
 	const state$ = xs.combine(props$, columns$, actions$, data$);
 	const vdom$ = state$
 		.map(([props, columns, actions, data]) => 

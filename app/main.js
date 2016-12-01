@@ -22,39 +22,46 @@ function main(sources) {
 	const topNavDom$ = topNav.DOM;
 
 	const sideNavProp$ = xs.of({
-		title: 'SEG Menu'
+		title: 'SEG Menu',
+		initial: 'relatorios'
 	});
 
 	const sideNavOption$ = xs.of([
 		{
 			icon: 'fa-file-word-o',
-			label: 'Atestados'
+			label: 'Atestados',
+			name: 'atestados'
 		},
 
 		{
 			icon: 'fa-file-text-o',
-			label: 'Relatórios'
+			label: 'Relatórios',
+			name: 'relatorios'
 		}
 	]);
 
 	const sideNav = SideNav({DOM: sources.DOM, props: sideNavProp$, options: sideNavOption$});
 	const sideNavDom$ = sideNav.DOM;
+	const sideNavModel$ = sideNav.model;
 
 	const dataGridProp$    = xs.of({title: 'Lista de Atestados'});
+
 	const dataGridColumns$ = xs.of([
 		{ label: 'Nome', name: 'nome' }, 
 		{ label: 'Matrícula', name: 'matricula' },
-		{ label: 'Projeto', name: 'projeto' }, 
+		{ label: 'Projeto', name: 'projeto' },
 		{ label: 'Coordenador(a)', name: 'coordenador' }
 	]);
+
 	const dataGridData$ = xs.fromArray([
 		{
-			nome: 'Stephen Strange',
+			nome: 'Aluno X',
 			matricula: '101678743',
 			projeto: 'Gambis da Magia',
-			coordenador: 'Aline Mello'
+			coordenador: 'Stephen Strange'
 		}
 	]);
+
 	const dataGridActions$ = xs.of([
 		{icon: 'fa-trash', color: 'w3-red'},
 		{icon: 'fa-edit', color: 'w3-dark-grey'}
