@@ -77,6 +77,13 @@ function main(sources) {
 
 	const dataGridDom$ = dataGrid.DOM;
 
+	const viewStateMap$ = xs.fromArray([
+		{
+			name: 'relatorios',
+			component: ff
+		}
+	]);
+
 	return {
 		DOM: xs.combine(topNavDom$, sideNavDom$, dataGridDom$).map(([topNavDom, sideNavDom, dataGridDom]) =>
 			div('#bn-sistema-wrapper', [
