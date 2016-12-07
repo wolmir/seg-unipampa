@@ -33,7 +33,7 @@ function model(sources) {
 		.remember();
 
 	return {
-		model$: state$.debug(),
+		model$: state$,
 		props$: sources.props$
 	}
 }

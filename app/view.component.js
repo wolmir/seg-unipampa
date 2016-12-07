@@ -1,17 +1,18 @@
+/* jshint node:true */
 'use strict';
 import xs from 'xstream';
-import {nav, a, span, h5, header, div} from '@cycle/dom';
 import isolate from '@cycle/isolate';
+var R = require('ramda');
 
-let setProp = propName => value => obj => {
-	let nobj = Object.assign({}, obj);
-	nobj[propName] = value;
-	return nobj;
-};
+// let setProp = propName => value => obj => {
+// 	let nobj = Object.assign({}, obj);
+// 	nobj[propName] = value;
+// 	return nobj;
+// };
 
 function intent(sources) {
 	const stateMap$ = sources.stateMap
-		.fold((acc, s) => setProp(s.name)(s.component)(acc), {});
+		.fold((acc, s) => R.assoc(s.name, s, acc), {});
 
 	return Object.assign({}, sources, {
 		stateMap: stateMap$
@@ -20,14 +21,15 @@ function intent(sources) {
 
 function model(sources) {
 	return Object.assign({}, sources, {
-		currentComponent: xs.combine(sources.currentState, sources.stateMap)
-			.map([currentState, stateMap] => stateMap[currentState])
+		stateDesc: xs.combine(sources.currentState, sources.stateMap)
+			.map(([currentState, stateMap]) => stateMap[currentState])
+			.filter(desc => (typeof desc !== 'undefined'))
 	});
 }
 
 function view(sources) {
-	const currentComp$ = sources.currentComponent
-		.map(currentComponent => currentComponent(sources));
+	const currentComp$ = sources.stateDesc
+		.map(stateDesc => stateDesc.component(stateDesc.sources));
 
 	return {
 		DOM: currentComp$.map(sink => sink.DOM).flatten()

@@ -5,6 +5,7 @@ import {div, section, a, span, i, nav, header, h5, h3, label, input, table, th, 
 import TopNav from './top-nav.component';
 import SideNav from './side-nav.component';
 import DataGrid from './data-grid.component';
+import View from './view.component';
 
 function main(sources) {
 	const topNavProp$ = xs.of({
@@ -67,31 +68,45 @@ function main(sources) {
 		{icon: 'fa-edit', color: 'w3-dark-grey'}
 	]);
 
-	const dataGrid = DataGrid({
+	const dataGridSources = {
 		DOM: sources.DOM,
 		columns: dataGridColumns$, 
 		data: dataGridData$,
 		props: dataGridProp$,
 		actions: dataGridActions$
-	});
+	};
 
-	const dataGridDom$ = dataGrid.DOM;
+	// const dataGridDom$ = dataGrid.DOM;
 
 	const viewStateMap$ = xs.fromArray([
 		{
-			name: 'relatorios',
-			component: ff
+			name: '/relatorios',
+			component: DataGrid,
+			sources: dataGridSources
 		}
 	]);
 
+	const viewCurrentState$ = sideNavModel$
+		.map(model => model.filter(option => option.active)[0])
+		.map(option => option.name)
+		.map(name => '/' + name);
+
+	const view = View({
+		stateMap: viewStateMap$,
+		currentState: viewCurrentState$,
+		DOM: sources.DOM
+	});
+
+	const viewDom$ = view.DOM;
+
 	return {
-		DOM: xs.combine(topNavDom$, sideNavDom$, dataGridDom$).map(([topNavDom, sideNavDom, dataGridDom]) =>
+		DOM: xs.combine(topNavDom$, sideNavDom$, viewDom$).map(([topNavDom, sideNavDom, viewDom]) =>
 			div('#bn-sistema-wrapper', [
 				section('.w3-row', [
 					topNavDom,
 					div('#bn-sistema-conteudo', [
 						sideNavDom,
-						dataGridDom
+						viewDom
 					])
 				])
 			])
