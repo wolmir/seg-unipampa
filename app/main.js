@@ -1,11 +1,13 @@
 'use strict';
 import xs from 'xstream';
 import {run} from '@cycle/xstream-run';
-import {div, section, a, span, i, nav, header, h5, h3, label, input, table, th, td, tr, thead, tbody, button, footer, makeDOMDriver} from '@cycle/dom';
+import {div, section, makeDOMDriver} from '@cycle/dom';
 import TopNav from './top-nav.component';
 import SideNav from './side-nav.component';
 import DataGrid from './data-grid.component';
 import View from './view.component';
+import FormAtestado from './form-atestado.component';
+// import HelloWorld from './hello-world.component';
 
 function main(sources) {
 	const topNavProp$ = xs.of({
@@ -24,7 +26,7 @@ function main(sources) {
 
 	const sideNavProp$ = xs.of({
 		title: 'SEG Menu',
-		initial: 'relatorios'
+		initial: 'atestados'
 	});
 
 	const sideNavOption$ = xs.of([
@@ -76,13 +78,17 @@ function main(sources) {
 		actions: dataGridActions$
 	};
 
-	// const dataGridDom$ = dataGrid.DOM;
-
 	const viewStateMap$ = xs.fromArray([
 		{
 			name: '/relatorios',
 			component: DataGrid,
 			sources: dataGridSources
+		},
+
+		{
+			name: '/atestados',
+			component: FormAtestado,
+			sources: sources
 		}
 	]);
 
