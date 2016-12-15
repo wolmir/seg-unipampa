@@ -1,7 +1,7 @@
 /* jshint node:true */
 'use strict';
 import xs from 'xstream';
-import {section, header, h3, p, label, input, textarea, button, i, article, span, img, br} from '@cycle/dom';
+import {section, header, h3, p, label, input, textarea, button, i, article, span, img, br, hr} from '@cycle/dom';
 import isolate from '@cycle/isolate';
 var R = require('ramda');
 
@@ -60,49 +60,49 @@ function view(sources) {
 		DOM: sources.state.map(state =>
 			section('.w3-container.w3-row', {style: {'margin-left': '20%'}}, [
 				section('.w3-section.w3-card-16.w3-col.l12.m12.s12', [
-					header('.w3-container.w3-theme-d4.w3-padding', [
+					header('.atestado-form.w3-container.w3-theme-d4.w3-padding', [
 						h3('Gerar Atestados')
 					]),
 
 					section('.w3-row', {style: {'margin-bottom': '0.5%', 'margin-top': '5em'}}, [
 						section('.w3-col.l1.m1.w3-hide-small', [p()]),
 						section('.w3-col.l10.m10.s12', [
-							section('.w3-section', [
+							section('.atestado-form.w3-section', [
 								label('.w3-label', {style: {color: '#000000'}}, 'Nome do Aluno'),
 								input('.student-input.w3-input', {props: {type: 'text'}})
 							]),
 
-							section('.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
+							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Matrícula'),
 								input('.student-id-input.w3-input', {props: {type: 'text'}})
 							]),
 
-							section('.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
+							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Projeto'),
 								input('.project-input..w3-input', {props: {type: 'text'}})
 							]),
 
-							section('.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
+							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Descrição'),
 								textarea('.description-input.w3-input', {props: {rows: '6'}})
 							]),
 
-							section('.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
+							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Local'),
 								input('.location-input.w3-input', {props: {type: 'text'}})
 							]),
 
-							section('.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
+							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Data'),
 								input('.date-input.w3-input', {props: {type: 'text'}})
 							]),
 
-							section('.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
+							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Coordenador'),
 								input('.advisor-input.w3-input', {props: {type: 'text'}})
 							]),
 
-							section('.w3-center', {style: {'margin-top': '1em', 'margin-bottom': '4em'}}, [
+							section('.atestado-form.w3-center', {style: {'margin-top': '1em', 'margin-bottom': '4em'}}, [
 								button('.edit-button.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
 									i('.fa.fa-edit', {style: {color: '#000000'}}),
 									 '  Editar'
@@ -119,28 +119,47 @@ function view(sources) {
 								])
 							]),
 
-							section('.w3-section', [
+							section('.atestado-final.w3-section', [
 								header('.w3-container.w3-theme-d4', [
 									h3('Pré-Visualização')
 								]),
 
-								article([
-									span([
-										img({props: {src: './assets/images/logo.png', alt: 'Logo Unipampa'}}),
-										p({style: {'margin-top': '-7em', 'margin-left': '20em', 'font-size': '0.8em', 'text-align': 'justify'}}, [
-											'MINISTÉRIO DA EDUCAÇÃO',
+								article('.atestado-main', [
+									span('.atestado-header', [
+										img('.logo-unipampa', {props: {src: './assets/images/logo.png', alt: 'Logo Unipampa'}}),
+										p('.atestado-header-info', [
+											'Ministério da Educação',
 											br(),
-											'FUNDAÇÃO UNIVERSIDADE FEDERAL DO PAMPA',
+											'Fundação Universidade Federal do Pampa',
 											br(),
-											'CAMPUS ALEGRETE/RS',
+											'Campus Alegrete',
 											br(),
-											state.project
+											'Programa de Extensão ' + state.project
 										])
 									]),
 
-									section('.w3-center.w3-margin.atestado-corpo-section', [
-										h3('ATESTADO'),
-										p(interpretDescription(state))
+									section('.w3-margin.atestado-corpo-section', [
+										section('.atestado-titulo.w3-center', {style: {'text-decoration': 'underline'}}, [p('ATESTADO')]),
+										section('.atestado-conteudo', [
+											p(interpretDescription(state))
+										])
+									]),
+
+									section('.atestado-data', [
+										state.date
+									]),
+
+									section('.atestado-assinatura', [
+										hr(),
+										p([state.advisor, br(), 'Coordenador(a) do(a) ', state.project])
+									]),
+
+									section('.atestado-rodape', [
+										'UNIPAMPA Campus Alegrete - Avenida Tiaraju, 810 - Bairro Ibirapuitã – CEP: 97546-550',
+										br(),
+										'Alegrete – RS',
+										br(),
+										'Fone: (55) 3421 8400'
 									])
 								])
 							])

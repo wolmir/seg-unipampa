@@ -24,7 +24,7 @@ let _TopNav = function(sources) {
 
 	const vdom$ = xs.combine(state$, iconActionsDOM$)
 		.map(([state, iconActionDoms]) => 
-			div([
+			div('.topnav', [
 				ul('.w3-navbar.w3-theme-d4.w3-card-4.w3-left-align.w3-large', [
 					li([
 						a('.w3-padding-large.w3-theme-l5', [

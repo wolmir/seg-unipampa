@@ -10,50 +10,169 @@ Biblioteca usada: W3-html, w3-css
 		<title>Relatórios SEG</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="./assets/css/w3.css" />
-		<link rel="stylesheet" href="./assets/css/w3-theme-green.css" />
-		<link rel="stylesheet" href="./assets/css/font-awesome.css" />
+		<link rel="stylesheet" href="./assets/css/w3.css" media="screen" />
+		<link rel="stylesheet" href="./assets/css/w3-theme-green.css" media="screen" />
+		<link rel="stylesheet" href="./assets/css/font-awesome.css" media="screen" />
 
 		<style>
-			html, body {
-				margin: 0;
-				padding: 0;
-				height: 100%;
+			@media screen {
+				html, body {
+					margin: 0;
+					padding: 0;
+					height: 100%;
+				}
+
+				#bn-sistema-wrapper {
+					min-height: 100%;
+					position: relative;
+				}
+
+				#bn-sistema-conteudo {
+					padding-bottom: 3em;
+				}
+
+				#bn-sistema-footer {
+					width: 100%;
+					position: fixed;
+					height: 3em;
+					bottom: 0;
+					left: 0;
+				}
+
+				.w3-myfont {
+					font-family: 'Roboto', sans-serif
+				}
+
+				.w3-my-italic-font {
+					font-family: 'Roboto', sans-serif;
+					font-weight: 300;
+					font-style: italic;
+				}
+
+				.atestado-form-input-section {
+					margin-top: 2em !important;
+				}
+
+				.atestado-header-info {
+					margin-top: -7em !important;
+					margin-left: 20em !important;
+					font-size: 0.8em !important;
+					text-align: justify !important;
+				}
+
+				.atestado-corpo-section {
+					margin-top: 5em !important;
+				}
+
+				.atestado-conteudo {
+					text-align: justify;
+					font-family: 'Arial';
+					font-size: 12pt;
+					margin-top: 100px !important;
+				}
+
+				.atestado-conteudo p {
+					text-indent: 500px;
+					line-height: 200%;
+				}
 			}
 
-			#bn-sistema-wrapper {
-				min-height: 100%;
-				position: relative;
-			}
+			@media print {
+				@page {
+					size: A4;
+					margin: 0;
+				}
 
-			#bn-sistema-conteudo {
-				padding-bottom: 3em;
-			}
+				body {
+					margin-left: -5.0cm;
+					margin-top: -2cm;
+				}
 
-			#bn-sistema-footer {
-				width: 100%;
-				position: fixed;
-				height: 3em;
-				bottom: 0;
-				left: 0;
-			}
+				/*.atestado-header {
+					position: relative;
+				}*/
 
-			.w3-myfont {
-				font-family: 'Roboto', sans-serif
-			}
+				.atestado-main {
+					position: relative;
+				}
 
-			.w3-my-italic-font {
-				font-family: 'Roboto', sans-serif;
-				font-weight: 300;
-				font-style: italic;
-			}
+				.logo-unipampa {
+					position: absolute;
+					left: 1.6cm;
+					top: 0.95cm;
+				}
 
-			.atestado-form-input-section {
-				margin-top: 2em !important;
-			}
+				.atestado-header-info {
+					position: absolute;
+					display: inline-block;
+					font-family: 'Arial';
+					font-size: 10pt;
+					left: 6.2cm;
+					top: 0.95cm;
+				}
 
-			.atestado-corpo-section {
-				margin-top: 5em !important;
+				.atestado-titulo {
+					position: absolute;
+					font-family: 'Arial';
+					font-size: 14pt;
+					left: 9.1cm;
+					top: 4.6cm;
+				}
+
+				.atestado-conteudo {
+					position: absolute;
+					text-align: justify;
+					font-family: 'Arial';
+					font-size: 12pt;
+					top: 8.5cm;
+					margin-left: 1.6cm;
+					margin-right: 1.29cm;
+				}
+
+				.atestado-conteudo p {
+					text-indent: 7.28cm;
+					line-height: 200%;
+				}
+
+				.atestado-data {
+					position: absolute;
+					text-align: right;
+					width: 100%;
+					font-family: 'Arial';
+					font-size: 12pt;
+					top: 17cm;
+					right: 0cm;
+					margin-right: 1.29cm;
+				}
+
+				.atestado-assinatura {
+					position: absolute;
+					text-align: right;
+					line-height: 200%;
+					/*border: 1px solid black;*/
+					font-family: 'Arial';
+					font-size: 12pt;
+					top: 20.5cm;
+					right: 0cm;
+					margin-right: 1.29cm;
+				}
+
+				.atestado-rodape {
+					position: absolute;
+					font-family: 'Arial';
+					font-size: 8pt;
+					text-align: center;
+					width: 100%;
+					top: 27.5cm;
+				}
+
+				.sidenav, .topnav, .atestado-form, .atestado-final header, footer {
+					display: none;
+				}
+
+				.logo-unipampa {
+					width: 21%;
+				}
 			}
 		</style>
 	</head>

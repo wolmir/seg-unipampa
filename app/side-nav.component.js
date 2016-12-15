@@ -47,7 +47,7 @@ function view(sources) {
 	));
 
 	const vdom$ = xs.combine(sources.props$, optionDom$)
-		.map(([props, optionDoms]) => nav('.w3-sidenav.w3-theme-d1.w3-card-8.w3-large', {style: {width: '20%'}}, [
+		.map(([props, optionDoms]) => nav('.sidenav.w3-sidenav.w3-theme-d1.w3-card-8.w3-large', {style: {width: '20%'}}, [
 				header('.w3-container.w3-theme-d4', [
 					h5(props.title)
 				]),
