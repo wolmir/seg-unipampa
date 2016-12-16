@@ -28,21 +28,43 @@ function intent(sources) {
 
 	const descriptionAction$ = iToA('.description-input')('DESCRIPTION');
 	const dateAction$        = iToA('.date-input')('DATE');
-	const studentAction$     = iToA('.student-input')('STUDENT_NAME');
 	const advisorAction$     = iToA('.advisor-input')('ADVISOR');
 	const projectAction$     = iToA('.project-input')('PROJECT');
 	const locationAction$    = iToA('.location-input')('LOCATION');
-	const studentIdAction$   = iToA('.student-id-input')('STUDENT_ID');
+	// const studentIdAction$   = iToA('.student-id-input')('STUDENT_ID');
+
+	const studentNameInput$ = sources.DOM
+		.select('.student-input')
+		.events('input')
+		.map(ev => ev.target.value);
+
+	const studentHoursInput$ = sources.DOM
+		.select('.student-hours-input')
+		.events('input')
+		.map(ev => ev.target.value);
+
+	const studentInput$ = xs.combine(studentNameInput$, studentHoursInput$);
+
+	const addStudentBtnClick$ = sources.DOM
+		.select('.student-button')
+		.events('click');
+
+	const studentListAction$ = studentInput$
+		.map(([name, hours]) => addStudentBtnClick$.mapTo({name: name, hours: hours}))
+		.flatten()
+		.fold((students, newStudent) => students.concat(newStudent), [])
+		.startWith([])
+		.map(students => Object.assign({}, {type: 'STUDENTS', value: students}))
+		.debug();
 
 	return {
 		DOM: sources.DOM,
 		actions: xs.merge(
 			dateAction$,
-			studentAction$,
+			studentListAction$,
 			advisorAction$,
 			projectAction$,
 			locationAction$,
-			studentIdAction$,
 			descriptionAction$)
 	};
 }
@@ -67,9 +89,22 @@ function view(sources) {
 					section('.w3-row', {style: {'margin-bottom': '0.5%', 'margin-top': '5em'}}, [
 						section('.w3-col.l1.m1.w3-hide-small', [p()]),
 						section('.w3-col.l10.m10.s12', [
-							section('.atestado-form.w3-section', [
-								label('.w3-label', {style: {color: '#000000'}}, 'Nome do Aluno'),
-								input('.student-input.w3-input', {props: {type: 'text'}})
+							section('.atestado-form.w3-section.w3-row', [
+								section('.w3-container.w3-col.l6.m6.s12', [
+									label('.w3-label', {style: {color: '#000000'}}, 'Nome do Aluno'),
+									input('.student-input.w3-input', {props: {type: 'text'}})
+								]),
+
+								section('.w3-container.w3-col.l4.m4.s12', [
+									label('.w3-label', {style: {color: '#000000'}}, 'Horas'),
+									input('.student-hours-input.w3-input', {props: {type: 'text'}})
+								]),
+
+								section('.w3-col.l2.m2.s12', [
+									button('.student-button.w3-btn.w3-theme-action.w3-large.w3-hover-white', [
+										i('.fa.fa-plus')
+									])
+								]),
 							]),
 
 							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
