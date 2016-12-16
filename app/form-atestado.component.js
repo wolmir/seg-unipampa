@@ -12,13 +12,14 @@ var mapInputToAction = source => className => actionLabel => source
 		.startWith('')
 		.map(value => Object.assign({}, {type: actionLabel, value: value}));
 
-var interpretDescription = state => {
+var interpretDescription = (state, student) => {
 	if (!state.description) {
 		return '';
 	}
 
 	return state.description
-		.replace('{{nome_aluno}}', state.student_name)
+		.replace('{{nome_aluno}}', student.name)
+		.replace('{{horas}}', student.hours)
 		.replace('{{matricula}}', state.student_id)
 		.replace('{{projeto}}', state.project);
 };
@@ -74,6 +75,7 @@ function model(sources) {
 		DOM: sources.DOM,
 		state: sources.actions
 			.fold((previousState, action) => R.assoc(action.type.toLowerCase(), action.value, previousState), {})
+			.filter(state => state.students)
 	};
 }
 
@@ -157,9 +159,8 @@ function view(sources) {
 							section('.atestado-final.w3-section', [
 								header('.w3-container.w3-theme-d4', [
 									h3('Pré-Visualização')
-								]),
-
-								article('.atestado-main', [
+								])]
+								.concat(state.students.map(student => article('.atestado-main', [
 									span('.atestado-header', [
 										img('.logo-unipampa', {props: {src: './assets/images/logo.png', alt: 'Logo Unipampa'}}),
 										p('.atestado-header-info', [
@@ -176,7 +177,7 @@ function view(sources) {
 									section('.w3-margin.atestado-corpo-section', [
 										section('.atestado-titulo.w3-center', {style: {'text-decoration': 'underline'}}, [p('ATESTADO')]),
 										section('.atestado-conteudo', [
-											p(interpretDescription(state))
+											p(interpretDescription(state, student))
 										])
 									]),
 
@@ -196,8 +197,8 @@ function view(sources) {
 										br(),
 										'Fone: (55) 3421 8400'
 									])
-								])
-							])
+								])))
+							)
 
 						]),
 						section('.w3-col.l1.m1.w3-hide-small', [p()])
