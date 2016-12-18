@@ -1,7 +1,7 @@
 /* jshint node:true */
 'use strict';
 import xs from 'xstream';
-import {section, header, h3, p, label, input, textarea, button, i, article, span, img, br, hr} from '@cycle/dom';
+import {section, header, h3, p, label, input, textarea, button, i, article, span, img, br, hr, ul, li} from '@cycle/dom';
 import isolate from '@cycle/isolate';
 var R = require('ramda');
 
@@ -55,8 +55,7 @@ function intent(sources) {
 		.flatten()
 		.fold((students, newStudent) => students.concat(newStudent), [])
 		.startWith([])
-		.map(students => Object.assign({}, {type: 'STUDENTS', value: students}))
-		.debug();
+		.map(students => Object.assign({}, {type: 'STUDENTS', value: students}));
 
 	return {
 		DOM: sources.DOM,
@@ -76,6 +75,7 @@ function model(sources) {
 		state: sources.actions
 			.fold((previousState, action) => R.assoc(action.type.toLowerCase(), action.value, previousState), {})
 			.filter(state => state.students)
+			.debug()
 	};
 }
 
@@ -107,6 +107,15 @@ function view(sources) {
 										i('.fa.fa-plus')
 									])
 								]),
+							]),
+
+							section('.w3-container.w3-section.w3-row', [
+								ul('.w3-ul.w3-hoverable.w3-col.l8.m8.s12', state.students.map(student => li([
+									span('.w3-large', student.name),
+									span('.w3-right', [span('.w3-btn.w3-red.w3-hover-white', [i('.fa.fa-trash')])]),
+									br(),
+									span({style: {'font-weight': 'bold'}}, student.hours + ' horas')
+								])))
 							]),
 
 							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
