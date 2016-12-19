@@ -40,7 +40,8 @@ function intent(sources) {
 	const removeStudentAction$ = sources.DOM
 		.select('.remove-student-button')
 		.events('click')
-		.debug();
+		.map(ev => ev.ownerTarget.id)
+		.map(id => ({type: 'RM_STUDENT', id}));
 
 	return xs.merge(
 			dateAction$,

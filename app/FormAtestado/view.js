@@ -41,7 +41,7 @@ function view(state$) {
 								]),
 							]),
 
-							section('.w3-container.w3-section.w3-row', [
+							section('.atestado-form.w3-container.w3-section.w3-row', [
 								ul('.w3-ul.w3-hoverable.w3-col.l8.m8.s12', state.students.map(student => li([
 									span('.w3-large', student.name),
 									span('.w3-right', [span('.remove-student-button.w3-btn.w3-red.w3-hover-white', {props: {id: student.id}}, [i('.fa.fa-trash')])]),
