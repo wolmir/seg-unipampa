@@ -48,7 +48,8 @@ function intent(sources) {
 
 	const addStudentBtnClick$ = sources.DOM
 		.select('.student-button')
-		.events('click');
+		.events('click')
+		.debug();
 
 	const studentListAction$ = studentInput$
 		.map(([name, hours]) => addStudentBtnClick$.mapTo({name: name, hours: hours}))
@@ -56,6 +57,11 @@ function intent(sources) {
 		.fold((students, newStudent) => students.concat(newStudent), [])
 		.startWith([])
 		.map(students => Object.assign({}, {type: 'STUDENTS', value: students}));
+
+	const removeStudentAction$ = sources.DOM
+		.select('.remove-student-button')
+		.events('click')
+		.debug();
 
 	return {
 		DOM: sources.DOM,
@@ -75,7 +81,6 @@ function model(sources) {
 		state: sources.actions
 			.fold((previousState, action) => R.assoc(action.type.toLowerCase(), action.value, previousState), {})
 			.filter(state => state.students)
-			.debug()
 	};
 }
 
@@ -112,7 +117,7 @@ function view(sources) {
 							section('.w3-container.w3-section.w3-row', [
 								ul('.w3-ul.w3-hoverable.w3-col.l8.m8.s12', state.students.map(student => li([
 									span('.w3-large', student.name),
-									span('.w3-right', [span('.w3-btn.w3-red.w3-hover-white', [i('.fa.fa-trash')])]),
+									span('.w3-right', [span('.remove-student-button.w3-btn.w3-red.w3-hover-white', {props: {student: student.name}}, [i('.fa.fa-trash')])]),
 									br(),
 									span({style: {'font-weight': 'bold'}}, student.hours + ' horas')
 								])))
