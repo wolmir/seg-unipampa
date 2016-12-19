@@ -6,7 +6,7 @@ import TopNav from './top-nav.component';
 import SideNav from './side-nav.component';
 import DataGrid from './data-grid.component';
 import View from './view.component';
-import FormAtestado from './form-atestado.component';
+import FormAtestado from './FormAtestado';
 // import HelloWorld from './hello-world.component';
 
 function main(sources) {
