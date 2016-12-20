@@ -56,6 +56,7 @@ else if (config.ambiente === 'DESENVOLVIMENTO') {
 			}
 		},
 
+		target: "electron",
 
 		plugins: [
 			new CopyWebpackPlugin([

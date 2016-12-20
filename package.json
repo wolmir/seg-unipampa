@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jasmine",
+    "prestart": "./node_modules/.bin/webpack",
     "start": "electron ."
   },
   "repository": "https://github.com/wolmir/seg-unipampa",

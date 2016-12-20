@@ -9,6 +9,8 @@ import View from './view.component';
 import FormAtestado from './FormAtestado';
 // import HelloWorld from './hello-world.component';
 
+const ipc = require('electron').ipcRenderer;
+
 function main(sources) {
 	const topNavProp$ = xs.of({
 		appIcon: {
@@ -106,7 +108,7 @@ function main(sources) {
 
 	const viewDom$ = view.DOM;
 
-	const viewPrint$ = view.print;
+	const viewPrint$ = view.print.debug();
 
 	return {
 		DOM: xs.combine(topNavDom$, sideNavDom$, viewDom$).map(([topNavDom, sideNavDom, viewDom]) =>
@@ -127,7 +129,20 @@ function main(sources) {
 
 const drivers = {
 	DOM: makeDOMDriver('#seg-app'),
-	print: print$ => { print$.addListener({next: ev => window.print()}) }
+
+	print: print$ => { 
+		print$.addListener({next: ev => ipc.send('print-to-pdf')});
+
+		return xs.create({
+			start: function (listener) {
+				ipc.on('wrote-pdf', function(event, path) {
+					listener.next(path);
+				})
+			},
+
+			stop: function () {}
+		});
+	}
 };
 
 run(main, drivers);
