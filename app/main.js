@@ -100,10 +100,13 @@ function main(sources) {
 	const view = View({
 		stateMap: viewStateMap$,
 		currentState: viewCurrentState$,
-		DOM: sources.DOM
+		DOM: sources.DOM,
+		print: sources.print
 	});
 
 	const viewDom$ = view.DOM;
+
+	const viewPrint$ = view.print;
 
 	return {
 		DOM: xs.combine(topNavDom$, sideNavDom$, viewDom$).map(([topNavDom, sideNavDom, viewDom]) =>
@@ -116,12 +119,15 @@ function main(sources) {
 					])
 				])
 			])
-		)
+		),
+
+		print: viewPrint$
 	};
 }
 
 const drivers = {
-	DOM: makeDOMDriver('#seg-app')
+	DOM: makeDOMDriver('#seg-app'),
+	print: print$ => { print$.addListener({next: ev => window.print()}) }
 };
 
 run(main, drivers);

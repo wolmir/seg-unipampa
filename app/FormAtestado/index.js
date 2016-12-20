@@ -11,6 +11,7 @@ let _FormAtestado = function(sources) {
 
 	return {
 		DOM: vtree$,
+		print: state$.debug().filter(state => state.doPrint),
 		action$,
 		state$
 	};

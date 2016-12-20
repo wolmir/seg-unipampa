@@ -94,6 +94,11 @@ function view(state$) {
 								button('.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
 									i('.fa.fa-file', {style: {color: '#000000'}}),
 									 '  Carregar Modelo'
+								]),
+
+								button('.print-button.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
+									i('.fa.fa-print', {style: {color: '#000000'}}),
+									 '  Imprimir'
 								])
 							]),
 

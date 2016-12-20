@@ -32,6 +32,7 @@ function view(sources) {
 		.map(stateDesc => stateDesc.component(stateDesc.sources));
 
 	return {
+		print: currentComp$.map(sink => sink.print).flatten(),
 		DOM: currentComp$.map(sink => sink.DOM).flatten()
 	};
 }

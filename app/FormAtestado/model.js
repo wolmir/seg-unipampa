@@ -6,6 +6,24 @@ function calcID(name) {
 };
 
 function makeReducer$(action$) {
+	let setUpPrintReducer$ = action$
+		.filter(action => action.type !== 'PRINT')
+		.mapTo(function setUpPrintReducer(data) {
+			return {
+				...data,
+				doPrint: false
+			};
+		});
+
+	let printReducer$ = action$
+		.filter(action => action.type === 'PRINT')
+		.mapTo(function printReducer(data) {
+			return {
+				...data,
+				doPrint: true
+			};
+		});
+
 	let genericInputReducer$ = action$
 		.filter(action => action.type.startsWith('INPUT_'))
 		.map(action => function genericInputReducer(data) {
@@ -39,7 +57,9 @@ function makeReducer$(action$) {
 	return xs.merge(
 		genericInputReducer$,
 		addStudentReducer$,
-		rmStudentReducer$
+		rmStudentReducer$,
+		setUpPrintReducer$,
+		printReducer$
 	);
 }
 

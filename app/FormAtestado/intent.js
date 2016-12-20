@@ -43,6 +43,12 @@ function intent(sources) {
 		.map(ev => ev.ownerTarget.id)
 		.map(id => ({type: 'RM_STUDENT', id}));
 
+	const printAction$ = sources.DOM
+		.select('.print-button')
+		.events('click')
+		.mapTo({type: 'PRINT'})
+		.debug();
+
 	return xs.merge(
 			dateAction$,
 			studentListAction$,
@@ -50,7 +56,9 @@ function intent(sources) {
 			projectAction$,
 			locationAction$,
 			descriptionAction$,
-			removeStudentAction$);
+			removeStudentAction$,
+			printAction$
+	);
 }
 
 export default intent;

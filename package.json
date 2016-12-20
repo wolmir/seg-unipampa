@@ -4,8 +4,10 @@
   "description": "Sistema de Extensão Gerenciado",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine"
+    "test": "jasmine",
+    "start": "electron ."
   },
+  "repository": "https://github.com/wolmir/seg-unipampa",
   "keywords": [
     "SEG",
     "Unipampa",
@@ -13,8 +15,9 @@
     "Atestados"
   ],
   "author": "Wolmir Nemitz",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "devDependencies": {
+    "electron": "^1.4.1",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
