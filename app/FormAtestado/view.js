@@ -98,8 +98,8 @@ function view(state$) {
 								]),
 
 								button('.print-button.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
-									i('.fa.fa-print', {style: {color: '#000000'}}),
-									 '  Imprimir'
+									i('.fa.fa-file-pdf-o', {style: {color: '#000000'}}),
+									 '  Salvar em PDF'
 								])
 							]),
 
