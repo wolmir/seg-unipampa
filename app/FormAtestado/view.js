@@ -1,4 +1,5 @@
 import {section, header, h3, p, label, input, textarea, button, i, article, span, img, br, hr, ul, li} from '@cycle/dom';
+import xs from 'xstream';
 
 var interpretDescription = (state, student) => {
 	if (!state.description) {
@@ -13,7 +14,7 @@ var interpretDescription = (state, student) => {
 };
 
 function view(state$) {
-	return state$.map(state =>
+	const vtree$ = state$.map(state =>
 			section('.w3-container.w3-row', {style: {'margin-left': '20%'}}, [
 				section('.w3-section.w3-card-16.w3-col.l12.m12.s12', [
 					header('.atestado-form.w3-container.w3-theme-d4.w3-padding', [
@@ -152,6 +153,10 @@ function view(state$) {
 				])
 			])
 		);
+	
+	const print$ = state$.filter(state => state.doPrint);
+
+	return { vtree$, print$ };
 }
 
 export default view;

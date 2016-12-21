@@ -29,7 +29,7 @@ function model(sources) {
 
 function view(sources) {
 	const currentComp$ = sources.stateDesc
-		.map(stateDesc => stateDesc.component(stateDesc.sources));
+		.map(stateDesct => stateDesct.component(stateDesct.sources)).remember();
 
 	return {
 		print: currentComp$.map(sink => sink.print).flatten(),

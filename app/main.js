@@ -123,7 +123,7 @@ function main(sources) {
 			])
 		),
 
-		print: viewPrint$
+		print: xs.merge(xs.of(false), viewPrint$).filter(x => x)
 	};
 }
 
