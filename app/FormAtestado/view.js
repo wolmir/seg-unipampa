@@ -2,11 +2,11 @@ import {section, header, h3, p, label, input, textarea, button, i, article, span
 import xs from 'xstream';
 
 var interpretDescription = (state, student) => {
-	if (!state.description) {
+	if (!state.input_description) {
 		return '';
 	}
 
-	return state.description
+	return state.input_description
 		.replace('{{nome_aluno}}', student.name)
 		.replace('{{horas}}', student.hours)
 		.replace('{{matricula}}', state.student_id)

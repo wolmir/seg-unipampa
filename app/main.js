@@ -108,7 +108,7 @@ function main(sources) {
 
 	const viewDom$ = view.DOM;
 
-	const viewPrint$ = view.print.debug();
+	const viewPrint$ = view.print;
 
 	return {
 		DOM: xs.combine(topNavDom$, sideNavDom$, viewDom$).map(([topNavDom, sideNavDom, viewDom]) =>

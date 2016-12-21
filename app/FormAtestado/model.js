@@ -6,14 +6,6 @@ function calcID(name) {
 };
 
 function makeReducer$(action$) {
-	let setUpPrintReducer$ = action$
-		.filter(action => action.type !== 'PRINT')
-		.mapTo(function setUpPrintReducer(data) {
-			return {
-				...data,
-				doPrint: false
-			};
-		});
 
 	let printReducer$ = action$
 		.filter(action => action.type === 'PRINT')
@@ -29,18 +21,19 @@ function makeReducer$(action$) {
 		.map(action => function genericInputReducer(data) {
 			return {
 				...data,
-				[action.type.toLowerCase()]: action.value
+				[action.type.toLowerCase()]: action.value,
+				doPrint: false
 			};
 		});
 
 	let addStudentReducer$ = action$
 		.filter(action => action.type === 'ADD_STUDENT')
-		.debug()
 		.map(action => ({...action, student: {...action.student, id: calcID(action.student.name)}}))
 		.map(action => function addStudentReducer(data) {
 			return {
 				...data,
-				students: [action.student, ...data.students]
+				students: [action.student, ...data.students],
+				doPrint: false
 			};
 		});
 
@@ -49,7 +42,8 @@ function makeReducer$(action$) {
 		.map(action => function rmStudentReducer(data) {
 			return {
 				...data,
-				students: data.students.filter(student => student.id !== action.id)
+				students: data.students.filter(student => student.id !== action.id),
+				doPrint: false
 			};
 		});
 
@@ -58,7 +52,6 @@ function makeReducer$(action$) {
 		genericInputReducer$,
 		addStudentReducer$,
 		rmStudentReducer$,
-		setUpPrintReducer$,
 		printReducer$
 	);
 }

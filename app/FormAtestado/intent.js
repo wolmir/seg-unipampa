@@ -46,8 +46,7 @@ function intent(sources) {
 	const printAction$ = sources.DOM
 		.select('.print-button')
 		.events('click')
-		.mapTo({type: 'PRINT'})
-		.debug();
+		.mapTo({type: 'PRINT'});
 
 	return xs.merge(
 			dateAction$,
