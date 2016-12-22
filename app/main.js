@@ -2,14 +2,13 @@
 import xs from 'xstream';
 import {run} from '@cycle/xstream-run';
 import {div, section, makeDOMDriver} from '@cycle/dom';
+import printToPdfDriver from './drivers';
 import TopNav from './top-nav.component';
 import SideNav from './side-nav.component';
 import DataGrid from './data-grid.component';
 import View from './view.component';
 import FormAtestado from './FormAtestado';
 // import HelloWorld from './hello-world.component';
-
-const ipc = require('electron').ipcRenderer;
 
 function main(sources) {
 	const topNavProp$ = xs.of({
@@ -129,20 +128,7 @@ function main(sources) {
 
 const drivers = {
 	DOM: makeDOMDriver('#seg-app'),
-
-	print: print$ => { 
-		print$.addListener({next: ev => ipc.send('print-to-pdf')});
-
-		return xs.create({
-			start: function (listener) {
-				ipc.on('wrote-pdf', function(event, path) {
-					listener.next(path);
-				})
-			},
-
-			stop: function () {}
-		});
-	}
+	print: printToPdfDriver
 };
 
 run(main, drivers);
