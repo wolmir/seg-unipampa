@@ -1,18 +1,19 @@
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
+const fs      = require('fs');
+const os      = require('os');
+const path    = require('path');
+const levelup = require('levelup');
 
-const electron = require('electron')
+const electron = require('electron');
 // Module to control application life.
-const app = electron.app
+const app = electron.app;
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const BrowserWindow = electron.BrowserWindow;
 
-const ipc = electron.ipcMain
-const shell = electron.shell
+const ipc = electron.ipcMain;
+const shell = electron.shell;
 const Shortcut = electron.globalShortcut;
 
-const url = require('url')
+const url = require('url');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -82,4 +83,25 @@ ipc.on('print-to-pdf', function (event) {
       event.sender.send('wrote-pdf', pdfPath)
     })
   })
-})
+});
+
+
+const db = levelup('./atestados.db');
+
+ipc.on('leveldb-get', function(event, key) {
+  db.get(key, function(err, value) {
+    if (err) {
+      return event.sender.send('leveldb-response', {error: err});
+    }
+    event.sender.send('leveldb-response', {data: value});
+  });
+});
+
+ipc.on('leveldb-put', function(event, key, value) {
+  db.put(key, value, function(err) {
+    if (err) {
+      return event.sender.send('leveldb-response', {error: err});
+    }
+    event.sender.send('leveldb-response', {data: key + ' persisted with success'});
+  });
+});

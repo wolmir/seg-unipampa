@@ -1,14 +1,14 @@
-'use strict';
 import xs from 'xstream';
 import {run} from '@cycle/xstream-run';
 import {div, section, makeDOMDriver} from '@cycle/dom';
-import printToPdfDriver from './drivers';
+import { printToPdfDriver, makeLevelDBDriver } from './drivers';
 import TopNav from './top-nav.component';
 import SideNav from './side-nav.component';
 import DataGrid from './data-grid.component';
 import View from './view.component';
 import FormAtestado from './FormAtestado';
 // import HelloWorld from './hello-world.component';
+
 
 function main(sources) {
 	const topNavProp$ = xs.of({
