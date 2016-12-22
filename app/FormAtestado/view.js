@@ -82,24 +82,29 @@ function view(state$) {
 							]),
 
 							section('.atestado-form.w3-center', {style: {'margin-top': '1em', 'margin-bottom': '4em'}}, [
-								button('.edit-button.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
-									i('.fa.fa-edit', {style: {color: '#000000'}}),
-									 '  Editar'
-								]),
+								// button('.edit-button.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
+								// 	i('.fa.fa-edit', {style: {color: '#000000'}}),
+								// 	 '  Editar'
+								// ]),
 
-								button('.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
-									i('.fa.fa-trash', {style: {color: '#000000'}}),
-									 '  Excluir'
-								]),
+								// button('.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
+								// 	i('.fa.fa-trash', {style: {color: '#000000'}}),
+								// 	 '  Excluir'
+								// ]),
 
-								button('.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
-									i('.fa.fa-file', {style: {color: '#000000'}}),
-									 '  Carregar Modelo'
+								// button('.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
+								// 	i('.fa.fa-file', {style: {color: '#000000'}}),
+								// 	 '  Carregar Modelo'
+								// ]),
+
+								button('.save-button.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
+									i('.fa.fa-save', {style: {color: '#000000'}}),
+									' Salvar'
 								]),
 
 								button('.print-button.w3-btn.w3-theme-d1.w3-hover-grey.w3-margin.w3-large', [
 									i('.fa.fa-file-pdf-o', {style: {color: '#000000'}}),
-									 '  Salvar em PDF'
+									 '  Exportar PDF'
 								])
 							]),
 
