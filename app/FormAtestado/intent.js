@@ -15,6 +15,7 @@ function intent(sources) {
 	const projectAction$     = iToA('.project-input')('INPUT_PROJECT');
 	const locationAction$    = iToA('.location-input')('INPUT_LOCATION');
 	const descriptionAction$ = iToA('.description-input')('INPUT_DESCRIPTION');
+	const modelNameAction$ = iToA('.model-name-input')('INPUT_MODEL_NAME');
 
 	const studentNameInput$ = sources.DOM
 		.select('.student-input')
@@ -73,7 +74,8 @@ function intent(sources) {
 			printAction$,
 			saveAction$,
 			saveSuccessAction$,
-			closeModalAction$
+			closeModalAction$,
+			modelNameAction$
 	);
 }
 

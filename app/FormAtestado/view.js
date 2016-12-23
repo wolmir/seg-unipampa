@@ -26,6 +26,11 @@ function view(state$) {
 					section('.w3-row', {style: {'margin-bottom': '0.5%', 'margin-top': '5em'}}, [
 						section('.w3-col.l1.m1.w3-hide-small', [p()]),
 						section('.w3-col.l10.m10.s12', [
+							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
+								label('.w3-label', {style: {color: '#000000'}}, 'Nome do Modelo'),
+								input('.model-namw-input.w3-input', {props: {type: 'text'}})
+							]),
+
 							section('.atestado-form.w3-section.w3-row', [
 								section('.w3-container.w3-col.l6.m6.s12', [
 									label('.w3-label', {style: {color: '#000000'}}, 'Nome do Aluno'),
