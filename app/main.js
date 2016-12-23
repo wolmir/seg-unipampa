@@ -1,7 +1,8 @@
 import xs from 'xstream';
 import {run} from '@cycle/xstream-run';
 import {div, section, makeDOMDriver} from '@cycle/dom';
-import { printToPdfDriver, makeLevelDBDriver } from './drivers';
+import printToPdfDriver from './drivers/print-to-pdf.driver';
+import { makeLevelDBDriver } from './drivers/leveldb.driver';
 import TopNav from './top-nav.component';
 import SideNav from './side-nav.component';
 import DataGrid from './data-grid.component';
@@ -102,12 +103,15 @@ function main(sources) {
 		stateMap: viewStateMap$,
 		currentState: viewCurrentState$,
 		DOM: sources.DOM,
-		print: sources.print
+		print: sources.print,
+		leveldb: sources.leveldb
 	});
 
 	const viewDom$ = view.DOM;
 
 	const viewPrint$ = view.print;
+
+	const viewLeveldb$ = view.leveldb;
 
 	return {
 		DOM: xs.combine(topNavDom$, sideNavDom$, viewDom$).map(([topNavDom, sideNavDom, viewDom]) =>
@@ -122,13 +126,15 @@ function main(sources) {
 			])
 		),
 
-		print: xs.merge(xs.of(false), viewPrint$).filter(x => x)
+		print: xs.merge(xs.of(false), viewPrint$).filter(x => x),
+		leveldb: viewLeveldb$
 	};
 }
 
 const drivers = {
 	DOM: makeDOMDriver('#seg-app'),
-	print: printToPdfDriver
+	print: printToPdfDriver,
+	leveldb: makeLevelDBDriver()
 };
 
 run(main, drivers);

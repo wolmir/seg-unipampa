@@ -7,11 +7,12 @@ import view from './view';
 let _FormAtestado = function(sources) {
 	let action$ = intent(sources);
 	let state$ = model(action$);
-	let { vtree$, print$ } = view(state$);
+	let { vtree$, print$, leveldb$ } = view(state$);
 
 	return {
 		DOM: vtree$,
 		print: print$,
+		leveldb: leveldb$,
 		action: action$,
 		state: state$
 	};

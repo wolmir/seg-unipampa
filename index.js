@@ -1,7 +1,7 @@
 const fs      = require('fs');
 const os      = require('os');
 const path    = require('path');
-const levelup = require('levelup');
+const db = require('node-persist');
 
 const electron = require('electron');
 // Module to control application life.
@@ -86,22 +86,24 @@ ipc.on('print-to-pdf', function (event) {
 });
 
 
-const db = levelup('./atestados.db');
+db.initSync({
+  dir: 'db'
+});
 
-ipc.on('leveldb-get', function(event, key) {
-  db.get(key, function(err, value) {
+ipc.on('leveldb-get', function(event, selector, key) {
+  db.getItem(key, function(err, value) {
     if (err) {
-      return event.sender.send('leveldb-response', {error: err});
+      return event.sender.send('leveldb-response', selector, {error: err});
     }
-    event.sender.send('leveldb-response', {data: value});
+    event.sender.send('leveldb-response', selector, {data: value});
   });
 });
 
-ipc.on('leveldb-put', function(event, key, value) {
-  db.put(key, value, function(err) {
+ipc.on('leveldb-put', function(event, selector, key, value) {
+  db.setItem(key, value, function(err) {
     if (err) {
-      return event.sender.send('leveldb-response', {error: err});
+      return event.sender.send('leveldb-response', selector, {error: err});
     }
-    event.sender.send('leveldb-response', {data: key + ' persisted with success'});
+    event.sender.send('leveldb-response', selector, {data: {success: true}});
   });
 });

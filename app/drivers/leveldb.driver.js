@@ -5,21 +5,21 @@ const ipc = require('electron').ipcRenderer;
 function makeLevelDBDriver() {
 	let response$ = xs.create({
 		start: function (listener) {
-			ipc.on('leveldb-response', function (selector, data) {
+			ipc.on('leveldb-response', function (event, selector, data) {
 				listener.next({selector, data});
 			});
 		},
 
 		stop: () => {}
-	});
+	}).remember();
 
 	return request$ => {
 		request$.addListener({
 			next: function(request) {
 				if (request.type === 'get') {
-					ipc.send('leveldb-get', request.key);
+					ipc.send('leveldb-get', request.selector, request.key);
 				} else if (request.type === 'put') {
-					ipc.send('leveldb-put', request.key, request.value);
+					ipc.send('leveldb-put', request.selector, request.key, request.value);
 				} else {
 					console.warn('LevelDB Driver >> Unknown request type "' + request.type + '". This will probably hang...');
 				}
@@ -47,4 +47,21 @@ function makeLevelDBDriver() {
 }
 
 
-export default makeLevelDBDriver;
+function vput(selector, key, value) {
+	return {
+		type: 'put',
+		selector,
+		key,
+		value
+	};
+}
+
+function vget(selector, key) {
+	return {
+		type: 'get',
+		selector,
+		key
+	};
+}
+
+export { vput, vget, makeLevelDBDriver};

@@ -32,6 +32,7 @@ function view(sources) {
 		.map(stateDesct => stateDesct.component(stateDesct.sources)).remember();
 
 	return {
+		leveldb: currentComp$.map(sink => sink.leveldb).flatten(),
 		print: currentComp$.map(sink => sink.print).flatten(),
 		DOM: currentComp$.map(sink => sink.DOM).flatten()
 	};

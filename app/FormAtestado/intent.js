@@ -48,6 +48,20 @@ function intent(sources) {
 		.events('click')
 		.mapTo({type: 'PRINT'});
 
+	const saveAction$ = sources.DOM
+		.select('.save-button')
+		.events('click')
+		.mapTo({type: 'SAVE'});
+
+	const saveSuccessAction$ = sources.leveldb
+		.select('form-atestado-save')
+		.mapTo({type: 'GREAT_SUCCESS', open: true});
+
+	const closeModalAction$ = sources.DOM
+		.select('.modal-ok-button')
+		.events('click')
+		.mapTo({type: 'GREAT_SUCCESS', open: false});
+
 	return xs.merge(
 			dateAction$,
 			studentListAction$,
@@ -56,7 +70,10 @@ function intent(sources) {
 			locationAction$,
 			descriptionAction$,
 			removeStudentAction$,
-			printAction$
+			printAction$,
+			saveAction$,
+			saveSuccessAction$,
+			closeModalAction$
 	);
 }
 

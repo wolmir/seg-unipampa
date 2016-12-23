@@ -1,5 +1,7 @@
-import {section, header, h3, p, label, input, textarea, button, i, article, span, img, br, hr, ul, li} from '@cycle/dom';
+import {section, header, h3, h2, p, label, input, textarea, button, i, article, span, img, br, hr, ul, li, div} from '@cycle/dom';
 import xs from 'xstream';
+
+import {vput} from '../drivers/leveldb.driver';
 
 var interpretDescription = (state, student) => {
 	if (!state.input_description) {
@@ -155,13 +157,33 @@ function view(state$) {
 						]),
 						section('.w3-col.l1.m1.w3-hide-small', [p()])
 					])
+				]),
+				
+				article('.w3-modal', {style: {display: (state.showModal) ? 'block' : 'none'}}, [
+					div('.w3-modal-content', {style: {'max-width': '40%'}}, [
+						header('.w3-container.w3-green', [
+							h3([i('.fa.fa-beer'), ' Sucesso!'])
+						]),
+
+						div('.w3-container', [
+							p('Modelo salvo com sucesso!')
+						]),
+
+						div('.w3-panel.w3-padding-8.w3-light-grey', [
+							button('.modal-ok-button.w3-btn.w3-theme-action.w3-right', 'Ok')
+						])
+					])
 				])
 			])
 		);
 	
 	const print$ = state$.filter(state => state.doPrint);
 
-	return { vtree$, print$ };
+	const leveldb$ = state$.filter(state => state.doSave)
+		.map(state => state.store)
+		.map(store => vput('form-atestado-save', store.id, store));
+
+	return { vtree$, print$, leveldb$ };
 }
 
 export default view;

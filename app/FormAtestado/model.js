@@ -1,4 +1,5 @@
 import xs from 'xstream';
+import R from 'ramda';
 
 function calcID(name) {
 	return name.split('')
@@ -12,7 +13,8 @@ function makeReducer$(action$) {
 		.mapTo(function printReducer(data) {
 			return {
 				...data,
-				doPrint: true
+				doPrint: true,
+				doSave: false
 			};
 		});
 
@@ -22,7 +24,8 @@ function makeReducer$(action$) {
 			return {
 				...data,
 				[action.type.toLowerCase()]: action.value,
-				doPrint: false
+				doPrint: false,
+				doSave: false
 			};
 		});
 
@@ -33,7 +36,8 @@ function makeReducer$(action$) {
 			return {
 				...data,
 				students: [action.student, ...data.students],
-				doPrint: false
+				doPrint: false,
+				doSave: false
 			};
 		});
 
@@ -43,6 +47,29 @@ function makeReducer$(action$) {
 			return {
 				...data,
 				students: data.students.filter(student => student.id !== action.id),
+				doPrint: false,
+				doSave: false
+			};
+		});
+
+	let saveReducer$ = action$
+		.filter(action => action.type === 'SAVE')
+		.map(action => function saveReducer(data) {
+			return {
+				...data,
+				doPrint: false,
+				doSave: true,
+				store: {...data, doPrint: false, doSave: false, id: calcID(data.input_project)}
+			};
+		});
+
+	let saveSuccessReducer$ = action$
+		.filter(action => action.type === 'GREAT_SUCCESS')
+		.map(action => function saveSuccessReducer(data) {
+			return {
+				...data,
+				showModal: action.open,
+				doSave: false,
 				doPrint: false
 			};
 		});
@@ -52,7 +79,9 @@ function makeReducer$(action$) {
 		genericInputReducer$,
 		addStudentReducer$,
 		rmStudentReducer$,
-		printReducer$
+		printReducer$,
+		saveReducer$,
+		saveSuccessReducer$
 	);
 }
 
