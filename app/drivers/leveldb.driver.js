@@ -20,6 +20,8 @@ function makeLevelDBDriver() {
 					ipc.send('leveldb-get', request.selector, request.key);
 				} else if (request.type === 'put') {
 					ipc.send('leveldb-put', request.selector, request.key, request.value);
+				} else if (request.type === 'keys') {
+					ipc.send('leveldb-keys', request.selector)
 				} else {
 					console.warn('LevelDB Driver >> Unknown request type "' + request.type + '". This will probably hang...');
 				}
@@ -64,4 +66,11 @@ function vget(selector, key) {
 	};
 }
 
-export { vput, vget, makeLevelDBDriver};
+function vkeys(selector) {
+	return {
+		type: 'keys',
+		selector
+	}
+}
+
+export { vput, vget, vkeys, makeLevelDBDriver};

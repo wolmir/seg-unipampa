@@ -5,9 +5,10 @@ import printToPdfDriver from './drivers/print-to-pdf.driver';
 import { makeLevelDBDriver } from './drivers/leveldb.driver';
 import TopNav from './top-nav.component';
 import SideNav from './side-nav.component';
-import DataGrid from './data-grid.component';
+// import DataGrid from './data-grid.component';
 import View from './view.component';
 import FormAtestado from './FormAtestado';
+import ListaAtestado from './ListaAtestados';
 // import HelloWorld from './hello-world.component';
 
 
@@ -49,42 +50,11 @@ function main(sources) {
 	const sideNavDom$ = sideNav.DOM;
 	const sideNavModel$ = sideNav.model;
 
-	const dataGridProp$    = xs.of({title: 'Lista de Atestados'});
-
-	const dataGridColumns$ = xs.of([
-		{ label: 'Nome', name: 'nome' }, 
-		{ label: 'Matrícula', name: 'matricula' },
-		{ label: 'Projeto', name: 'projeto' },
-		{ label: 'Coordenador(a)', name: 'coordenador' }
-	]);
-
-	const dataGridData$ = xs.fromArray([
-		{
-			nome: 'Aluno X',
-			matricula: '101678743',
-			projeto: 'Gambis da Magia',
-			coordenador: 'Stephen Strange'
-		}
-	]);
-
-	const dataGridActions$ = xs.of([
-		{icon: 'fa-trash', color: 'w3-red'},
-		{icon: 'fa-edit', color: 'w3-dark-grey'}
-	]);
-
-	const dataGridSources = {
-		DOM: sources.DOM,
-		columns: dataGridColumns$, 
-		data: dataGridData$,
-		props: dataGridProp$,
-		actions: dataGridActions$
-	};
-
 	const viewStateMap$ = xs.fromArray([
 		{
 			name: '/relatorios',
-			component: DataGrid,
-			sources: dataGridSources
+			component: ListaAtestado,
+			sources: sources
 		},
 
 		{

@@ -107,3 +107,7 @@ ipc.on('leveldb-put', function(event, selector, key, value) {
     event.sender.send('leveldb-response', selector, {data: {success: true}});
   });
 });
+
+ipc.on('leveldb-keys', function(event, selector) {
+  return event.sender.send('leveldb-response', selector, {data: db.keys()});
+});

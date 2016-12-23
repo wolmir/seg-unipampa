@@ -4,7 +4,7 @@ import R from 'ramda';
 function calcID(name) {
 	return name.split('')
 		.reduce((code, letter) => code + letter.charCodeAt(0), '');
-};
+}
 
 function makeReducer$(action$) {
 
