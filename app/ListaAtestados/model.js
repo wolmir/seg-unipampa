@@ -48,15 +48,16 @@ function makeReducer$(action$) {
 		requestListReducer$,
 		requestModelReducer$,
 		receiveModelReducer$
-	).debug();
+	);
 }
 
 
 function model(action$) {
-	let reducer$ = makeReducer$(action$.debug());
+	let reducer$ = makeReducer$(action$);
 
 	return reducer$
-		.fold((data, reducer) => reducer(data), {models: [], filteredModels: []});
+		.fold((data, reducer) => reducer(data), {models: [], filteredModels: []})
+		.remember();
 }
 
 export default model;

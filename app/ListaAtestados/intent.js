@@ -11,6 +11,7 @@ function intent(sources) {
 
 	let requestModel$ = sources.leveldb
 			.select('list-request')
+			.map(response => response.data)
 			.map(list => xs.fromArray(list.map(modelId => ({type: 'REQUEST_MODEL', modelId}))))
 			.flatten();
 
@@ -23,7 +24,7 @@ function intent(sources) {
 		requestListAction$,
 		requestModel$,
 		receiveModelAction$
-	);
+	).remember();
 }
 
 export default intent;

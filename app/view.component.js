@@ -3,6 +3,7 @@
 import xs from 'xstream';
 import isolate from '@cycle/isolate';
 var R = require('ramda');
+import { vkeys } from './drivers/leveldb.driver';
 
 // let setProp = propName => value => obj => {
 // 	let nobj = Object.assign({}, obj);
@@ -33,7 +34,7 @@ function view(sources) {
 
 	return {
 		leveldb: currentComp$.map(sink => sink.leveldb).flatten(),
-		print: currentComp$.map(sink => sink.print).flatten(),
+		print: currentComp$.filter(sink => sink.print).map(sink => sink.print).flatten(),
 		DOM: currentComp$.map(sink => sink.DOM).flatten()
 	};
 }
