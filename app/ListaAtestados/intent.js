@@ -26,9 +26,15 @@ function intent(sources) {
 		.map(ev => ev.ownerTarget.id)
 		.map(id => ({type: 'OPEN_RM_MODAL', id}));
 
-	const closeDeleteModalAction$ = sources.DOM
+	const modalCancelBtnClick$ = sources.DOM
 		.select('.modal-cancel-button')
-		.events('click')
+		.events('click');
+
+	const confirmModelDestruction$ = sources.leveldb
+		.select('model-delete')
+		.mapTo(true);
+
+	const closeDeleteModalAction$ = xs.merge(modalCancelBtnClick$, confirmModelDestruction$)
 		.mapTo({type: 'CLOSE_RM_MODAL'});
 
 	const deleteAction$ = sources.DOM

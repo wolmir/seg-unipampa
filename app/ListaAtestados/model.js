@@ -30,7 +30,6 @@ function makeReducer$(action$) {
 		.map(action => function requestModelReducer(data) {
 			return {
 				...data,
-				listRequest: false,
 				modelRequest: action.modelId
 			};
 		});
@@ -38,11 +37,12 @@ function makeReducer$(action$) {
 	const receiveModelReducer$ = action$
 		.filter(action => action.type === 'RECEIVE_MODEL')
 		.map(action => function receiveModelReducer(data) {
+			const newModels = data.models.filter(m => m.id !== action.model.id).concat([action.model]);
 			return {
 				...data,
 				modelRequest: null,
-				models: data.models.concat([action.model]),
-				filteredModels: (data.filterInput !== '') ? data.filteredModels : data.models.concat([action.model])
+				models: newModels,
+				filteredModels: (data.filterInput !== '') ? data.filteredModels : newModels
 			};
 		});
 
@@ -62,7 +62,17 @@ function makeReducer$(action$) {
 			return {
 				...data,
 				displayDeleteModal: false,
-				modelToDelete: null
+				modelToDelete: null,
+				listRequest: true
+			};
+		});
+
+	const deleteModalReducer$ = action$
+		.filter(action => action.type === 'DELETE_MODEL')
+		.map(action => function deleteModalReducer(data) {
+			return {
+				...data,
+				deleteRequest: data.modelToDelete
 			};
 		});
 
@@ -72,16 +82,24 @@ function makeReducer$(action$) {
 		requestModelReducer$,
 		receiveModelReducer$,
 		openDeleteModalReducer$,
-		closeDeleteModalReducer$
+		closeDeleteModalReducer$,
+		deleteModalReducer$
 	);
 }
 
+function normalize(state) {
+	return {
+		...state,
+		deleteRequest: null,
+		listRequest: false
+	};
+}
 
 function model(action$) {
 	const reducer$ = makeReducer$(action$);
 
 	return reducer$
-		.fold((data, reducer) => reducer(data), {models: [], filteredModels: [], filterInput: ''})
+		.fold((data, reducer) => reducer(normalize(data)), {models: [], filteredModels: [], filterInput: ''})
 		.remember().debug();
 }
 

@@ -1,7 +1,7 @@
 import xs from 'xstream';
 import {article, section, header, h3, label, input, button, i, span, div, table, th, tr, td, thead, tbody, footer, p} from '@cycle/dom';
 
-import { vget, vkeys } from '../drivers/leveldb.driver';
+import { vget, vkeys, vdelete } from '../drivers/leveldb.driver';
 
 function viewInputPesquisa() {
 	return div('.w3-container.w3-section', {style: {position: 'relative'}}, [
@@ -88,9 +88,14 @@ function view(state$) {
 		.map(state => state.modelRequest)
 		.map(key => vget('model-request', key));
 
-	const leveldb$ = xs.merge(requestForModelList$, requestForModel$);
+	const requestDelete$ = state$
+		.filter(state => state.deleteRequest)
+		.map(state => state.deleteRequest)
+		.map(key => vdelete('model-delete', key));
 
-	return { vtree$, leveldb$};
+	const leveldb$ = xs.merge(requestForModelList$, requestForModel$, requestDelete$);
+
+	return { vtree$, leveldb$ };
 }
 
 export default view;
