@@ -31,13 +31,19 @@ function intent(sources) {
 		.events('click')
 		.mapTo({type: 'CLOSE_RM_MODAL'});
 
+	const deleteAction$ = sources.DOM
+		.select('.modal-delete-button')
+		.events('click')
+		.mapTo({type: 'DELETE_MODEL'});
+
 	return xs.merge(
 		searchAction$,
 		requestListAction$,
 		requestModel$,
 		receiveModelAction$,
 		openDeleteModalAction$,
-		closeDeleteModalAction$
+		closeDeleteModalAction$,
+		deleteAction$
 	).remember();
 }
 

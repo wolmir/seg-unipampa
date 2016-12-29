@@ -22,6 +22,8 @@ function makeLevelDBDriver() {
 					ipc.send('leveldb-put', request.selector, request.key, request.value);
 				} else if (request.type === 'keys') {
 					ipc.send('leveldb-keys', request.selector)
+				} else if (request.type === 'delete') {
+					ipc.send('leveldb-delete', request.selector, request.key)
 				} else {
 					console.warn('LevelDB Driver >> Unknown request type "' + request.type + '". This will probably hang...');
 				}
@@ -73,4 +75,12 @@ function vkeys(selector) {
 	}
 }
 
-export { vput, vget, vkeys, makeLevelDBDriver};
+function vdelete(selector, key) {
+	return {
+		type: 'delete',
+		selector,
+		key
+	}
+}
+
+export { vput, vget, vkeys, vdelete, makeLevelDBDriver};

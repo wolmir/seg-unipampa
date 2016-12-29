@@ -111,3 +111,12 @@ ipc.on('leveldb-put', function(event, selector, key, value) {
 ipc.on('leveldb-keys', function(event, selector) {
   return event.sender.send('leveldb-response', selector, {data: db.keys()});
 });
+
+ipc.on('leveldb-delete', function(event, selector, key) {
+  db.removeItem(key, function(err) {
+    if (err) {
+      return event.sender.send('leveldb-response', selector, {error: err});
+    }
+    return event.sender.send('leveldb-response', selector, {data: {success: true}});
+  });
+});
