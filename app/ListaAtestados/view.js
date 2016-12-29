@@ -39,8 +39,8 @@ function viewTable(data) {
 }
 
 function deleteModal(data) {
-	return article('.w3-modal.w3-animate-top', {style: {display: (data.displayDeleteModal) ? 'block' : 'none'}}, [
-		div('.w3-modal-content', {style: {'max-width': '60%'}}, [
+	return article('.w3-modal', {style: {display: (data.displayDeleteModal) ? 'block' : 'none'}}, [
+		div('.w3-modal-content.w3-animate-top', {style: {'max-width': '60%'}}, [
 			header('.w3-container.w3-red', [
 				h3([i('.fa.fa-trash'), ' Deletar Modelo'])
 			]),

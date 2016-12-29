@@ -54,14 +54,25 @@ function makeReducer$(action$) {
 				displayDeleteModal: true,
 				modelToDelete: action.id
 			};
-		})
+		});
+
+	const closeDeleteModalReducer$ = action$
+		.filter(action => action.type === 'CLOSE_RM_MODAL')
+		.map(action => function closeDeleteModalReducer(data) {
+			return {
+				...data,
+				displayDeleteModal: false,
+				modelToDelete: null
+			};
+		});
 
 	return xs.merge(
 		searchReducer$,
 		requestListReducer$,
 		requestModelReducer$,
 		receiveModelReducer$,
-		openDeleteModalReducer$
+		openDeleteModalReducer$,
+		closeDeleteModalReducer$
 	);
 }
 

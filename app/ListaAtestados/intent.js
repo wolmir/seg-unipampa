@@ -20,19 +20,24 @@ function intent(sources) {
 			.map(response => response.data)
 			.map(model => ({type: 'RECEIVE_MODEL', model}));
 
-	const deleteAction$ = sources.DOM
+	const openDeleteModalAction$ = sources.DOM
 		.select('.delete-button')
 		.events('click')
 		.map(ev => ev.ownerTarget.id)
 		.map(id => ({type: 'OPEN_RM_MODAL', id}));
 
+	const closeDeleteModalAction$ = sources.DOM
+		.select('.modal-cancel-button')
+		.events('click')
+		.mapTo({type: 'CLOSE_RM_MODAL'});
 
 	return xs.merge(
 		searchAction$,
 		requestListAction$,
 		requestModel$,
 		receiveModelAction$,
-		deleteAction$
+		openDeleteModalAction$,
+		closeDeleteModalAction$
 	).remember();
 }
 
