@@ -2,7 +2,7 @@ import xs from 'xstream';
 
 function makeReducer$(action$) {
 
-	let searchReducer$ = action$
+	const searchReducer$ = action$
 		.filter(action => action.type === 'SEARCH_INPUT')
 		.map(action => function searchReducer(data) {
 			return {
@@ -16,7 +16,7 @@ function makeReducer$(action$) {
 			};
 		});
 
-	let requestListReducer$ = action$
+	const requestListReducer$ = action$
 		.filter(action => action.type === 'REQUEST_LIST')
 		.mapTo(function requestListReducer(data) {
 			return {
@@ -25,7 +25,7 @@ function makeReducer$(action$) {
 			};
 		});
 
-	let requestModelReducer$ = action$
+	const requestModelReducer$ = action$
 		.filter(action => action.type === 'REQUEST_MODEL')
 		.map(action => function requestModelReducer(data) {
 			return {
@@ -35,7 +35,7 @@ function makeReducer$(action$) {
 			};
 		});
 
-	let receiveModelReducer$ = action$
+	const receiveModelReducer$ = action$
 		.filter(action => action.type === 'RECEIVE_MODEL')
 		.map(action => function receiveModelReducer(data) {
 			return {
@@ -46,21 +46,32 @@ function makeReducer$(action$) {
 			};
 		});
 
+	const openDeleteModalReducer$ = action$
+		.filter(action => action.type === 'OPEN_RM_MODAL')
+		.map(action => function openDeleteModalReducer(data) {
+			return {
+				...data,
+				displayDeleteModal: true,
+				modelToDelete: action.id
+			};
+		})
+
 	return xs.merge(
 		searchReducer$,
 		requestListReducer$,
 		requestModelReducer$,
-		receiveModelReducer$
+		receiveModelReducer$,
+		openDeleteModalReducer$
 	);
 }
 
 
 function model(action$) {
-	let reducer$ = makeReducer$(action$);
+	const reducer$ = makeReducer$(action$);
 
 	return reducer$
 		.fold((data, reducer) => reducer(data), {models: [], filteredModels: [], filterInput: ''})
-		.remember();
+		.remember().debug();
 }
 
 export default model;

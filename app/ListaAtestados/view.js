@@ -1,5 +1,5 @@
 import xs from 'xstream';
-import {section, header, h3, label, input, button, i, span, div, table, th, tr, td, thead, tbody, footer} from '@cycle/dom';
+import {article, section, header, h3, label, input, button, i, span, div, table, th, tr, td, thead, tbody, footer, p} from '@cycle/dom';
 
 import { vget, vkeys } from '../drivers/leveldb.driver';
 
@@ -30,12 +30,31 @@ function viewTable(data) {
 							td(value.input_project),
 							td([
 								button('.edit-button.w3-btn.w3-dark-grey', [i('.fa.fa-pencil')]),
-								button('.delete-button.w3-btn.w3-red', [i('.fa.fa-trash')])
+								button('.delete-button.w3-btn.w3-red', {props: {id: value.id}}, [i('.fa.fa-trash')])
 							])
 						])
 					)
 				)
 			]);
+}
+
+function deleteModal(data) {
+	return article('.w3-modal', {style: {display: (data.displayDeleteModal) ? 'block' : 'none'}}, [
+		div('.w3-modal-content', {style: {'max-width': '60%'}}, [
+			header('.w3-container.w3-red', [
+				h3([i('.fa.fa-trash'), ' Deletar Modelo'])
+			]),
+
+			div('.w3-container', [
+				p('Tem certeza que deseja deletar este modelo de atestado?')
+			]),
+
+			div('.w3-panel.w3-padding-8.w3-light-grey', [
+				button('.modal-delete-button.w3-btn.w3-red.w3-right', {style: {'margin-right': '5px'}}, 'Deletar'),
+				button('.modal-cancel-button.w3-btn.w3-blue-grey.w3-right', {style: {'margin-right': '5px'}}, 'Cancelar')
+			])
+		])
+	]);
 }
 
 
@@ -54,7 +73,9 @@ function view(state$) {
 						])
 					]),
 					footer('.w3-theme-d4.w3-center', [i('.fa.fa-pagelines')])
-				])
+				]),
+
+				deleteModal(state)
 			])
 		);
 
