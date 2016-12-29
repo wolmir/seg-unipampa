@@ -17,6 +17,7 @@ function intent(sources) {
 
 	let receiveModelAction$ = sources.leveldb
 			.select('model-request')
+			.map(response => response.data)
 			.map(model => ({type: 'RECEIVE_MODEL', model}));
 
 	return xs.merge(

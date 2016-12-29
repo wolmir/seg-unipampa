@@ -28,7 +28,7 @@ function view(state$) {
 						section('.w3-col.l10.m10.s12', [
 							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Nome do Modelo'),
-								input('.model-namw-input.w3-input', {props: {type: 'text'}})
+								input('.model-name-input.w3-input', {props: {type: 'text'}})
 							]),
 
 							section('.atestado-form.w3-section.w3-row', [

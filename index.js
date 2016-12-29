@@ -95,7 +95,7 @@ ipc.on('leveldb-get', function(event, selector, key) {
     if (err) {
       return event.sender.send('leveldb-response', selector, {error: err});
     }
-    event.sender.send('leveldb-response', selector, {data: value});
+    return event.sender.send('leveldb-response', selector, {data: value});
   });
 });
 
@@ -104,7 +104,7 @@ ipc.on('leveldb-put', function(event, selector, key, value) {
     if (err) {
       return event.sender.send('leveldb-response', selector, {error: err});
     }
-    event.sender.send('leveldb-response', selector, {data: {success: true}});
+    return event.sender.send('leveldb-response', selector, {data: {success: true}});
   });
 });
 

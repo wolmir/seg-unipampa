@@ -10,7 +10,8 @@ function makeReducer$(action$) {
 				filterInput: action.value,
 				filteredModels: data.models.filter(model => {
 					return (model.input_project.toLowerCase().search(action.value) >= 0) ||
-						   (model.input_model_name.toLowerCase().search(action.value) >= 0)
+						   (model.input_model_name.toLowerCase().search(action.value) >= 0) ||
+						   (action.value.length === 0)
 				})
 			};
 		});
@@ -39,7 +40,9 @@ function makeReducer$(action$) {
 		.map(action => function receiveModelReducer(data) {
 			return {
 				...data,
-				models: data.models.concat([action.model])
+				modelRequest: null,
+				models: data.models.concat([action.model]),
+				filteredModels: (data.filterInput !== '') ? data.filteredModels : data.models.concat([action.model])
 			};
 		});
 
@@ -56,7 +59,7 @@ function model(action$) {
 	let reducer$ = makeReducer$(action$);
 
 	return reducer$
-		.fold((data, reducer) => reducer(data), {models: [], filteredModels: []})
+		.fold((data, reducer) => reducer(data), {models: [], filteredModels: [], filterInput: ''})
 		.remember();
 }
 
