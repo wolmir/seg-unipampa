@@ -63,7 +63,9 @@ function makeReducer$(action$) {
 				...data,
 				displayDeleteModal: false,
 				modelToDelete: null,
-				listRequest: true
+				listRequest: true,
+				models: [],
+				filteredModels: []
 			};
 		});
 
@@ -100,7 +102,7 @@ function model(action$) {
 
 	return reducer$
 		.fold((data, reducer) => reducer(normalize(data)), {models: [], filteredModels: [], filterInput: ''})
-		.remember().debug();
+		.remember();
 }
 
 export default model;
