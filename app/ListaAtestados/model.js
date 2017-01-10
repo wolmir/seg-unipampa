@@ -1,7 +1,6 @@
 import xs from 'xstream';
 
 function makeReducer$(action$) {
-
 	const searchReducer$ = action$
 		.filter(action => action.type === 'SEARCH_INPUT')
 		.map(action => function searchReducer(data) {

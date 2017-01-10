@@ -11,7 +11,7 @@ function makeLevelDBDriver() {
 		},
 
 		stop: () => {}
-	}).remember();
+	});
 
 	return request$ => {
 		request$.addListener({
