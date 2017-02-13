@@ -1,18 +1,21 @@
 import xs from 'xstream';
 import {run} from '@cycle/xstream-run';
 import {div, section, makeDOMDriver} from '@cycle/dom';
-import printToPdfDriver from './drivers/print-to-pdf.driver';
+
+import {makeMsgDriver}       from './drivers/messages.driver';
+import printToPdfDriver      from './drivers/print-to-pdf.driver';
 import { makeLevelDBDriver } from './drivers/leveldb.driver';
-import TopNav from './top-nav.component';
-import SideNav from './side-nav.component';
-// import DataGrid from './data-grid.component';
-import View from './view.component';
-import FormAtestado from './FormAtestado';
+
+import View          from './view.component';
+import TopNav        from './top-nav.component';
+import SideNav       from './side-nav.component';
+import FormAtestado  from './FormAtestado';
 import ListaAtestado from './ListaAtestados';
-// import HelloWorld from './hello-world.component';
 
 
 function main(sources) {
+	const mailbox$ = xs.of({}).remember();
+
 	const topNavProp$ = xs.of({
 		appIcon: {
 			src: './assets/images/logo_trans.png',
@@ -69,9 +72,15 @@ function main(sources) {
 		.map(option => option.name)
 		.map(name => '/' + name);
 
+	const viewStateFromMailbox$ = sources.mailbox
+		.select('formAtestado')
+		.map(inbox => inbox.filter(msg => msg.msg === 'EDIT_MODEL'))
+		.filter(x => x.length > 0)
+		.mapTo('/atestados');
+
 	const view = View({
 		stateMap: viewStateMap$,
-		currentState: viewCurrentState$,
+		currentState: xs.merge(viewStateFromMailbox$, viewCurrentState$),
 		DOM: sources.DOM,
 		print: sources.print,
 		leveldb: sources.leveldb
@@ -82,6 +91,8 @@ function main(sources) {
 	const viewPrint$ = view.print;
 
 	const viewLeveldb$ = view.leveldb;
+
+	const viewMailbox$ = view.mailbox;
 
 	return {
 		DOM: xs.combine(topNavDom$, sideNavDom$, viewDom$).map(([topNavDom, sideNavDom, viewDom]) =>
@@ -96,15 +107,17 @@ function main(sources) {
 			])
 		),
 
-		print: xs.merge(xs.of(false), viewPrint$).filter(x => x),
-		leveldb: viewLeveldb$
+		print: xs.merge(xs.of(false), viewPrint$).filter(x => x).debug('printDriver ==== '),
+		leveldb: viewLeveldb$.debug('levelDriver ==== '),
+		mailbox: viewMailbox$.debug('mailboxDriver ==== ')
 	};
 }
 
 const drivers = {
 	DOM: makeDOMDriver('#seg-app'),
 	print: printToPdfDriver,
-	leveldb: makeLevelDBDriver()
+	leveldb: makeLevelDBDriver(),
+	mailbox: makeMsgDriver()
 };
 
 run(main, drivers);

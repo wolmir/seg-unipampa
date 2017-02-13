@@ -120,3 +120,27 @@ ipc.on('leveldb-delete', function(event, selector, key) {
     return event.sender.send('leveldb-response', selector, {data: {success: true}});
   });
 });
+
+var mailbox = {};
+
+ipc.on('new-message', function(event, selector, msg) {
+  console.log('msgIPC', msg);
+  if (msg.type === 'NEW') {
+    if (!mailbox[selector]) {
+      mailbox[selector] = [];
+    }
+    mailbox[selector].push(msg);
+  }
+
+  else if (msg.type === 'DELETE') {
+    if (mailbox[selector]) {
+      mailbox[selector] = mailbox[selector].filter(imsg => imsg.id === msg.id);
+    }
+  }
+
+  else if (msg.type === 'CLEAR') {
+    mailbox[selector] = [];
+  }
+
+  return event.sender.send('message-ping', selector, mailbox[selector]);
+});

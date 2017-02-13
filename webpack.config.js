@@ -41,7 +41,7 @@ else if (config.ambiente === 'DESENVOLVIMENTO') {
 		},
 
 		module: {
-			loaders: [{
+			rules: [{
 				test: /\.js$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader'
@@ -49,7 +49,11 @@ else if (config.ambiente === 'DESENVOLVIMENTO') {
 		},
 
 		resolve: {
-			root: path.resolve(__dirname),
+			// root: path.resolve(__dirname),
+			modules: [
+				path.resolve(__dirname),
+				"node_modules"
+			],
 			alias: {
 				lib: 'lib/js',
 				config: 'config'

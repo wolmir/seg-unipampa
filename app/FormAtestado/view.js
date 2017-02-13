@@ -16,7 +16,8 @@ var interpretDescription = (state, student) => {
 };
 
 function view(state$) {
-	const vtree$ = state$.map(state =>
+	// debugger;
+	const vtree$ = state$.debug('from view >>> ').map(state =>
 			section('.w3-container.w3-row', {style: {'margin-left': '20%'}}, [
 				section('.w3-section.w3-card-16.w3-col.l12.m12.s12', [
 					header('.atestado-form.w3-container.w3-theme-d4.w3-padding', [
@@ -28,7 +29,7 @@ function view(state$) {
 						section('.w3-col.l10.m10.s12', [
 							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Nome do Modelo'),
-								input('.model-name-input.w3-input', {props: {type: 'text'}})
+								input('.model-name-input.w3-input', {props: {type: 'text', value: state.input_model_name}})
 							]),
 
 							section('.atestado-form.w3-section.w3-row', [
@@ -58,34 +59,34 @@ function view(state$) {
 								])))
 							]),
 
-							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
-								label('.w3-label', {style: {color: '#000000'}}, 'Matrícula'),
-								input('.student-id-input.w3-input', {props: {type: 'text'}})
-							]),
+							// section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
+							// 	label('.w3-label', {style: {color: '#000000'}}, 'Matrícula'),
+							// 	input('.student-id-input.w3-input', {props: {type: 'text'}})
+							// ]),
 
 							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Projeto'),
-								input('.project-input..w3-input', {props: {type: 'text'}})
+								input('.project-input..w3-input', {props: {type: 'text', value: state.input_project}})
 							]),
 
 							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Descrição'),
-								textarea('.description-input.w3-input', {props: {rows: '6'}})
+								textarea('.description-input.w3-input', {props: {rows: '6', value: state.input_description}})
 							]),
 
 							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Local'),
-								input('.location-input.w3-input', {props: {type: 'text'}})
+								input('.location-input.w3-input', {props: {type: 'text', value: state.input_location}})
 							]),
 
 							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Data'),
-								input('.date-input.w3-input', {props: {type: 'text'}})
+								input('.date-input.w3-input', {props: {type: 'text', value: state.input_date}})
 							]),
 
 							section('.atestado-form.w3-section.atestado-form-input-section', {style: {color: '#000000'}}, [
 								label('.w3-label', {style: {color: '#000000'}}, 'Coordenador'),
-								input('.advisor-input.w3-input', {props: {type: 'text'}})
+								input('.advisor-input.w3-input', {props: {type: 'text', value: state.input_advisor}})
 							]),
 
 							section('.atestado-form.w3-center', {style: {'margin-top': '1em', 'margin-bottom': '4em'}}, [
@@ -182,13 +183,17 @@ function view(state$) {
 			])
 		);
 	
-	const print$ = state$.filter(state => state.doPrint);
+	const print$ = state$.debug('fromPrint >> ').filter(state => state.doPrint);
 
-	const leveldb$ = state$.filter(state => state.doSave)
+	const leveldb$ = state$.debug('fromLevelDB>> ').filter(state => state.doSave)
 		.map(state => state.store)
 		.map(store => vput('form-atestado-save', store.id, store));
 
-	return { vtree$, print$, leveldb$ };
+	const mailbox$ = state$.debug('fromMailbox >> ')
+		.filter(state => state.editMode)
+		.mapTo({type: 'CLEAR', to: 'formAtestado'});
+
+	return { vtree$, print$, leveldb$, mailbox$ };
 }
 
 export default view;

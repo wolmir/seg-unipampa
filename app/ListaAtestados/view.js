@@ -29,7 +29,7 @@ function viewTable(data) {
 							td(value.input_model_name),
 							td(value.input_project),
 							td([
-								button('.edit-button.w3-btn.w3-dark-grey', [i('.fa.fa-pencil')]),
+								button('.edit-button.w3-btn.w3-dark-grey', {props: {id: value.id}}, [i('.fa.fa-pencil')]),
 								button('.delete-button.w3-btn.w3-red', {props: {id: value.id}}, [i('.fa.fa-trash')])
 							])
 						])
@@ -95,7 +95,12 @@ function view(state$) {
 
 	const leveldb$ = xs.merge(requestForModelList$, requestForModel$, requestDelete$);
 
-	return { vtree$, leveldb$ };
+	const mailbox$ = state$
+		.map(state => state.editModel)
+		.filter(i => i)
+		.map(model => ({type: 'NEW', msg: 'EDIT_MODEL', to: 'formAtestado', model}));
+
+	return { vtree$, leveldb$, mailbox$ };
 }
 
 export default view;

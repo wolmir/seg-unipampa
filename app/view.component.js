@@ -35,7 +35,8 @@ function view(sources) {
 	return {
 		leveldb: currentComp$.map(sink => sink.leveldb).flatten(),
 		print: currentComp$.filter(sink => sink.print).map(sink => sink.print).flatten(),
-		DOM: currentComp$.map(sink => sink.DOM).flatten()
+		DOM: currentComp$.map(sink => sink.DOM).flatten(),
+		mailbox: currentComp$.map(sink => sink.mailbox).flatten()
 	};
 }
 

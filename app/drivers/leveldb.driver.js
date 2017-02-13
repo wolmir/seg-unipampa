@@ -6,6 +6,7 @@ function makeLevelDBDriver() {
 	let response$ = xs.create({
 		start: function (listener) {
 			ipc.on('leveldb-response', function (event, selector, data) {
+				console.log('%cleveldb response', "color:green;font-size:14px;");
 				listener.next({selector, data});
 			});
 		},

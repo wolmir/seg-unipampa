@@ -42,6 +42,12 @@ function intent(sources) {
 		.events('click')
 		.mapTo({type: 'DELETE_MODEL'});
 
+	const editAction$ = sources.DOM
+		.select('.edit-button')
+		.events('click')
+		.map(ev => ev.ownerTarget.id)
+		.map(id => ({type: 'EDIT_MODEL', modelId: id}));
+
 	return xs.merge(
 		searchAction$,
 		requestListAction$,
@@ -49,7 +55,8 @@ function intent(sources) {
 		receiveModelAction$,
 		openDeleteModalAction$,
 		closeDeleteModalAction$,
-		deleteAction$
+		deleteAction$,
+		editAction$
 	).remember();
 }
 

@@ -4,7 +4,7 @@ let mapInputToAction = source => className => actionLabel => source
 		.select(className)
 		.events('input')
 		.map(ev => ev.target.value)
-		.startWith('')
+		// .startWith('')
 		.map(value => Object.assign({}, {type: actionLabel, value: value}));
 
 function intent(sources) {
@@ -63,6 +63,13 @@ function intent(sources) {
 		.events('click')
 		.mapTo({type: 'GREAT_SUCCESS', open: false});
 
+	const editModalAction$ = sources.mailbox
+		.select('formAtestado')
+		.map(inbox => inbox.filter(msg => msg.msg === 'EDIT_MODEL'))
+		.filter(x => x.length > 0)
+		.map(x => x[0])
+		.map(msg => ({type: 'EDIT_MODEL', model: msg.model}));
+
 	return xs.merge(
 			dateAction$,
 			studentListAction$,
@@ -75,8 +82,9 @@ function intent(sources) {
 			saveAction$,
 			saveSuccessAction$,
 			closeModalAction$,
-			modelNameAction$
-	);
+			modelNameAction$,
+			editModalAction$
+	).debug('action');
 }
 
 export default intent;

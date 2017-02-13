@@ -77,6 +77,15 @@ function makeReducer$(action$) {
 			};
 		});
 
+	const editModelReducer$ = action$
+		.filter(action => action.type === 'EDIT_MODEL')
+		.map(action => function editModelReducer(data) {
+			return {
+				...data,
+				editModel: data.filteredModels.find(m => m.id === action.modelId)
+			}
+		});
+
 	return xs.merge(
 		searchReducer$,
 		requestListReducer$,
@@ -84,7 +93,8 @@ function makeReducer$(action$) {
 		receiveModelReducer$,
 		openDeleteModalReducer$,
 		closeDeleteModalReducer$,
-		deleteModalReducer$
+		deleteModalReducer$,
+		editModelReducer$
 	);
 }
 
@@ -92,7 +102,8 @@ function normalize(state) {
 	return {
 		...state,
 		deleteRequest: null,
-		listRequest: false
+		listRequest: false,
+		editModel: null
 	};
 }
 

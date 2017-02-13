@@ -14,7 +14,8 @@ function makeReducer$(action$) {
 			return {
 				...data,
 				doPrint: true,
-				doSave: false
+				doSave: false,
+				editMode: false
 			};
 		});
 
@@ -25,7 +26,8 @@ function makeReducer$(action$) {
 				...data,
 				[action.type.toLowerCase()]: action.value,
 				doPrint: false,
-				doSave: false
+				doSave: false,
+				editMode: false
 			};
 		});
 
@@ -37,7 +39,8 @@ function makeReducer$(action$) {
 				...data,
 				students: [action.student, ...data.students],
 				doPrint: false,
-				doSave: false
+				doSave: false,
+				editMode: false
 			};
 		});
 
@@ -48,7 +51,8 @@ function makeReducer$(action$) {
 				...data,
 				students: data.students.filter(student => student.id !== action.id),
 				doPrint: false,
-				doSave: false
+				doSave: false,
+				editMode: false
 			};
 		});
 
@@ -59,7 +63,8 @@ function makeReducer$(action$) {
 				...data,
 				doPrint: false,
 				doSave: true,
-				store: {...data, doPrint: false, doSave: false, id: calcID(data.input_project)}
+				store: {...data, doPrint: false, doSave: false, id: calcID(data.input_project)},
+				editMode: false
 			};
 		});
 
@@ -70,8 +75,19 @@ function makeReducer$(action$) {
 				...data,
 				showModal: action.open,
 				doSave: false,
-				doPrint: false
+				doPrint: false,
+				editMode: false
 			};
+		});
+
+	let editModelReducer$ = action$
+		.filter(action => action.type === 'EDIT_MODEL')
+		.map(action => function editModelReducer(data) {
+			return Object.assign({}, data, action.model, {
+				doSave: false,
+				doPrint: false,
+				editMode: true
+			})
 		});
 
 
@@ -81,7 +97,8 @@ function makeReducer$(action$) {
 		rmStudentReducer$,
 		printReducer$,
 		saveReducer$,
-		saveSuccessReducer$
+		saveSuccessReducer$,
+		editModelReducer$
 	);
 }
 
@@ -90,7 +107,22 @@ function model(action$) {
 	let reducer$ = makeReducer$(action$);
 
 	return reducer$
-		.fold((data, reducer) => reducer(data), {students: []});
+		.fold((data, reducer) => reducer(data), {
+			students: [],
+			input_date: '',
+			input_advisor: '',
+			input_project: '',
+			input_location: '',
+			input_description: '',
+			input_model_name: ''
+		})
+		.debug('from model >>> ');
+		// .map(state => {
+		// 	if (state.editMode) {
+		// 		debugger;
+		// 	}
+		// 	return state;
+		// });
 }
 
 export default model;
