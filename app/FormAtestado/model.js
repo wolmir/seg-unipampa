@@ -1,3 +1,5 @@
+/* jshint esversion:6 */
+
 import xs from 'xstream';
 import R from 'ramda';
 

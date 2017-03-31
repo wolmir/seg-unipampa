@@ -46,7 +46,10 @@ function intent(sources) {
 		.select('.edit-button')
 		.events('click')
 		.map(ev => ev.ownerTarget.id)
-		.map(id => ({type: 'EDIT_MODEL', modelId: id}));
+		.map(id => {
+			debugger;
+			return { type: 'EDIT_MODEL', modelId: id };
+		});
 
 	return xs.merge(
 		searchAction$,
