@@ -34,6 +34,7 @@
     "@cycle/dom": "^14.3.0",
     "@cycle/isolate": "^1.4.0",
     "@cycle/xstream-run": "^4.2.0",
+    "angular": "^1.6.3",
     "node-persist": "^2.0.8",
     "ramda": "^0.23.0",
     "xstream": "^10.2.0"
