@@ -15,6 +15,11 @@ Biblioteca usada: W3-html, w3-css
 		<link rel="stylesheet" href="./assets/css/font-awesome.css" media="screen" />
 
 		<style>
+			.topnav {
+				position: fixed !important;
+				width: 100%;
+				z-index: 2;
+			}
 			@media screen {
 				html, body {
 					margin: 0;
@@ -177,7 +182,7 @@ Biblioteca usada: W3-html, w3-css
 			}
 		</style>
 	</head>
-	<body>
+	<body ng-app="segUnipampa" ng-controller="listaCtrl as vm">
 		<div id="bn-sistema-wrapper">
 			<section class="w3-row">
 				<div class="topnav">
@@ -197,8 +202,8 @@ Biblioteca usada: W3-html, w3-css
 					</ul>
 				</div>
 
-				<div class="bn-sistema-conteudo">
-					<nav class="sidenav w3-sidenav w3-theme-d1 w3-card-8 w3-large" style="width:20%">
+				<div class="bn-sistema-conteudo" style="padding-top: 65px;">
+					<nav class="sidenav w3-sidenav w3-theme-d1 w3-card-8 w3-large relative-nav" style="width:20%">
 						<header class="w3-container w3-theme-d4">
 							<h5>SEG Menu</h5>
 						</header>
@@ -215,59 +220,206 @@ Biblioteca usada: W3-html, w3-css
 							</a>
 						</div>
 					</nav>
-				</div>
 
-				<section class="w3-container w3-row" style="margin-left: 20%">
-					<section class="w3-section w3-card-16 w3-col l12 m12 s12">
-						<header class="w3-container w3-theme-d4 w3-padding">
-							<h3>Lista de Modelos</h3>
-						</header>
+					<section class="w3-container w3-row" style="margin-left: 20%" ng-show="false">
+						<section class="w3-section w3-card-16 w3-col l12 m12 s12">
+							<header class="w3-container w3-theme-d4 w3-padding">
+								<h3>Lista de Modelos</h3>
+							</header>
 
-						<section class="w3-row">
-							<section class="w3-col l12 m12 s12">
-								<div class="w3-container w3-section" style="position: relative;">
-									<label class="w3-label">
-										<span class="fa fa-search"></span> Pesquisar
-									</label>
-									<input type="text" class="w3-input">
-								</div>
+							<section class="w3-row">
+								<section class="w3-col l12 m12 s12">
+									<div class="w3-container w3-section" style="position: relative;">
+										<label class="w3-label">
+											<span class="fa fa-search"></span> Pesquisar
+										</label>
+										<input type="text" class="w3-input">
+									</div>
 
-								<table class="w3-table w3-bordered w3-striped w3-hoverable">
-									<thead>
-										<tr class="w3-theme-d1">
-											<th>Nome</th>
-											<th>Projeto</th>
-											<th>Ações</th>
-										</tr>
-									</thead>
+									<table class="w3-table w3-bordered w3-striped w3-hoverable">
+										<thead>
+											<tr class="w3-theme-d1">
+												<th>Nome</th>
+												<th>Projeto</th>
+												<th>Ações</th>
+											</tr>
+										</thead>
 
-									<tbody>
-										<tr>
-											<td>Modelo I</td>
-											<td>Projeto X</td>
-											<td>
-												<button class="w3-btn w3-dark-grey">
-													<i class="fa fa-pencil"></i>
-												</button>
+										<tbody>
+											<tr ng-repeat="modelo in vm.modelos">
+												<td>{{modelo.nome}}</td>
+												<td>{{modelo.projeto}}</td>
+												<td>
+													<button class="w3-btn w3-dark-grey">
+														<i class="fa fa-pencil"></i>
+													</button>
 
-												<button class="w3-btn w3-red">
-													<i class="fa fa-trash"></i>
-												</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+													<button class="w3-btn w3-red">
+														<i class="fa fa-trash"></i>
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</section>
+							</section>
+
+							<footer class="w3-theme-d4 w3-center">
+								<i class="fa fa-pagelines"></i>
+							</footer>
+						</section>
+					</section>
+
+					<section class="w3-container w3-row" style="margin-left: 20%">
+						<section class="w3-section w3-card-16 w3-col l12 m12 s12">
+							<header class="atestado-form w3-container w3-theme-d4 w3-padding">
+								<h3>Gerar Atestados</h3>
+							</header>
+
+							<section class="w3-row" style="margin-bottom: 0.5%;">
+								<section class="w3-col l1 m1 w3-hide-small"><p></p></section>
+
+								<section class="w3-col l10 m10 s12">
+									<section class="atestado-form w3-section atestado-form-input-section">
+										<label class="w3-label" style="color: #000">Nome do Modelo</label>
+										<input type="text" class="w3-input">
+									</section>
+
+									<section class="atestado-form w3-section w3-row">
+										<section class="w3-container w3-col l6 m6 s12'">
+											<label class="w3-label" style="color: #000">Nome do Aluno</label>
+											<input type="text" class="w3-input">
+										</section>
+
+										<section class="w3-container w3-col l4 m4 s12'">
+											<label class="w3-label" style="color: #000">Horas</label>
+											<input type="number" class="w3-input">
+										</section>
+
+										<section class="w3-col l2 m2 s12">
+											<button class="w3-btn w3-theme-action w3-large w3-hover-white">
+												<i class="fa fa-plus"></i>
+											</button>
+										</section>
+									</section>
+
+									<section class="atestado-form w3-section w3-row">
+										<ul class="w3-ul w3-hoverable w3-col l8 m8 s12">
+											<li>
+												<span class="w3-large">Nome do cabra</span>
+												<span class="w3-right">
+													<span class="remove-student-button w3-btn w3-red w3-hover-white">
+														<i class="fa fa-trash"></i>
+													</span>
+												</span>
+												<br>
+												<span style="font-weight: bold">30 horas</span>
+											</li>
+										</ul>
+									</section>
+
+									<section class="atestado-form w3-section atestado-form-input-section" style="color: #000">
+										<label class="w3-label", style="color: #000">Projeto</label>
+										<input type="text" class="w3-input">
+									</section>
+
+									<section class="atestado-form w3-section atestado-form-input-section" style="color: #000">
+										<label class="w3-label", style="color: #000">Descrição</label>
+										<textarea class="w3-input" rows="6"></textarea>
+									</section>
+
+									<section class="atestado-form w3-section atestado-form-input-section" style="color: #000">
+										<label class="w3-label", style="color: #000">Local</label>
+										<input type="text" class="w3-input">
+									</section>
+
+									<section class="atestado-form w3-section atestado-form-input-section" style="color: #000">
+										<label class="w3-label", style="color: #000">Data</label>
+										<input type="date" class="w3-input">
+									</section>
+
+									<section class="atestado-form w3-section atestado-form-input-section" style="color: #000">
+										<label class="w3-label", style="color: #000">Orientador</label>
+										<input type="text" class="w3-input">
+									</section>
+
+									<section class="atestado-form w3-center", style="margin-top: 1em; margin-bottom: 4em">
+										<button class="save-button w3-btn w3-theme-d1 w3-hover-grey w3-margin w3-large">
+											<i class="fa fa-save" style="color:#000"></i><span> Salvar</span>
+										</button>
+
+										<button class="save-button w3-btn w3-theme-d1 w3-hover-grey w3-margin w3-large">
+											<i class="fa fa-file-pdf-o" style="color:#000"></i><span> Exportar PDF</span>
+										</button>
+									</section>
+
+									<section class="atestado-final w3-section">
+										<header class="w3-container w3-theme-d4">
+											<h3>Pré-visualização</h3>
+										</header>
+
+										<article class="atestado-main">
+											<span class="atestado-header">
+												<img class="logo-unipampa" src="./assets/images/logo.png" alt="Logo Unipampa">
+												<p class="atestado-header-info">
+													Ministério da Educação
+													<br>
+													Fundação Universidade Federal do Pampa
+													<br>
+													Campus Alegrete
+													<br>
+													Programa de Extensão Nome do Projeto
+												</p>
+											</span>
+
+											<section class="w3-margin atestado-corpo-section">
+												<section class="atestado-titulo w3-center" style="text-decoration: underline;">
+													<p>ATESTADO</p>
+												</section>
+
+												<section class="atestado-conteudo">
+													<p>Lorem Ipsum</p>
+												</section>
+											</section>
+
+											<section class="atestado-data">
+												Alegrete, 2 de Abril de 2017
+											</section>
+
+											<section class="atestado-assinatura">
+												<hr>
+												<p>
+													Nome do orientador
+													<br>
+													Coordenador(a) do Projeto Nome do projeto
+												</p>
+											</section>
+
+											<section class="atestado-rodape">
+												UNIPAMPA Campus Alegrete - Avenida Tiaraju, 810 - Bairro Ibirapuitã – CEP: 97546-550
+												<br>
+												Alegrete - RS
+												<br>
+												Fone: (55) 3421 8400
+											</section>
+										</article>
+									</section>
+
+								</section>
+
+								<section class="w3-col l1 m1 w3-hide-small"><p></p></section>
 							</section>
 						</section>
-
-						<footer class="w3-theme-d4 w3-center">
-							<i class="fa fa-pagelines"></i>
-						</footer>
 					</section>
-				</section>
+				</div>
 			</section>
 		</div>
 	</body>
-
+	<!-- <script>
+		window.nodeRequire = require;
+		delete window.require;
+		delete window.exports;
+		delete window.module;
+	</script> -->
 	<script src="./app.bundle.js"></script>
 </html>
