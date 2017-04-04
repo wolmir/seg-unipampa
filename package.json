@@ -35,8 +35,11 @@
     "@cycle/isolate": "^1.4.0",
     "@cycle/xstream-run": "^4.2.0",
     "angular": "^1.6.3",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "node-persist": "^2.0.8",
     "ramda": "^0.23.0",
+    "uuid": "^3.0.1",
     "xstream": "^10.2.0"
   }
 }
