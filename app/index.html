@@ -209,25 +209,10 @@ Biblioteca usada: W3-html, w3-css
 				</div>
 
 				<div class="bn-sistema-conteudo" style="padding-top: 65px;">
-					<nav class="sidenav w3-sidenav w3-theme-d1 w3-card-8 w3-large relative-nav" style="width:20%">
-						<header class="w3-container w3-theme-d4">
-							<h5>SEG Menu</h5>
-						</header>
 
-						<div style="margin-top:2em;">
-							<a style="cursor:pointer" ng-click="vm.abrirForm()">
-								<span class="fa fa-file-word-o" style="color: #000; margin-bottom: 1em;"></span> Atestados
-							</a>
-						</div>
+					<sidenav titulo="SEG Menu"></sidenav>
 
-						<div>
-							<a style="cursor:pointer" ng-click="vm.abrirLista()">
-								<span class="fa fa-file-text-o" style="color: #000; margin-bottom: 1em;"></span> Lista
-							</a>
-						</div>
-					</nav>
-
-					<section class="w3-container w3-row" style="margin-left: 20%" ng-show="vm.state === 'lista'">
+					<section class="w3-container w3-row w3-animate-top" style="margin-left: 20%" ng-show="vm.state === 'lista'">
 						<section class="w3-section w3-card-16 w3-col l12 m12 s12">
 							<header class="w3-container w3-theme-d4 w3-padding">
 								<h3>Lista de Modelos</h3>
@@ -295,7 +280,7 @@ Biblioteca usada: W3-html, w3-css
 						</article>
 					</section>
 
-					<section class="ancestral w3-container w3-row" style="margin-left: 20%" ng-show="vm.state === 'form'">
+					<section class="ancestral w3-container w3-row w3-animate-top" style="margin-left: 20%" ng-show="vm.state === 'form'">
 						<section class="tataravo w3-section w3-card-16 w3-col l12 m12 s12">
 							<header class="atestado-form w3-container w3-theme-d4 w3-padding">
 								<h3>Gerar Atestados</h3>

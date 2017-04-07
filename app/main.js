@@ -2,16 +2,17 @@ import angular from 'angular';
 import moment from 'moment';
 
 require('./modelos.service');
+require('./sidenav.component');
 
-angular.module('segUnipampa', ['modelosServiceModule']);
+angular.module('segUnipampa', ['modelosServiceModule', 'sidenavServiceModule', 'sidenavComponentModule']);
 
 angular
 	.module('segUnipampa')
 	.controller('listaCtrl', listaCtrl);
 
-listaCtrl.$inject = ['$rootScope', 'modelosService', '$timeout'];
+listaCtrl.$inject = ['$rootScope', 'modelosService', '$timeout', 'sidenavService'];
 
-function listaCtrl($rootScope, modelosService, $timeout) {
+function listaCtrl($rootScope, modelosService, $timeout, sidenavService) {
 	var meses = [
 		"Janeiro",
 		"Fevereiro",
@@ -50,6 +51,20 @@ function listaCtrl($rootScope, modelosService, $timeout) {
 		orientador: ''
 	};
 
+	vm.opcaoForm = {
+		nome: 'Atestados',
+		icone: 'fa fa-file-word-o',
+		ativa: false,
+		estado: 'form'
+	};
+
+	vm.opcaoLista = {
+		nome: 'Lista',
+		icone: 'fa fa-file-text-o',
+		ativa: true,
+		estado: 'lista'
+	};
+
 	vm.addAluno = addAluno;
 	vm.removerAluno = removerAluno;
 	vm.salvar = salvar;
@@ -63,6 +78,18 @@ function listaCtrl($rootScope, modelosService, $timeout) {
 	init();
 
 	function init() {
+		sidenavService.onEscolha(function (opcao, parametros) {
+			if (opcao.estado === 'lista') {
+				vm.abrirLista();
+			} else {
+				vm.abrirForm(parametros);
+			}
+		});
+
+		sidenavService.addOpcao(vm.opcaoForm);
+
+		sidenavService.addOpcao(vm.opcaoLista);
+
 		$rootScope.$watch(function () { return vm.modelo; }, regenerarAtestados, true);
 
 		carregarModelos();
@@ -147,9 +174,7 @@ function listaCtrl($rootScope, modelosService, $timeout) {
 			.then(console.log);
 	}
 
-	function abrirForm() {
-		vm.state = 'form';
-
+	function abrirForm(modelo) {
 		vm.modelo = {
 			nome: '',
 			alunos: [],
@@ -159,6 +184,14 @@ function listaCtrl($rootScope, modelosService, $timeout) {
 			data: null,
 			orientador: ''
 		};
+
+		if (modelo) {
+			vm.modelo = angular.extend({}, modelo, {
+				data: new Date(modelo.data)
+			});
+		}
+
+		vm.state = 'form';
 
 		vm.atestados = [];
 	}
@@ -172,11 +205,7 @@ function listaCtrl($rootScope, modelosService, $timeout) {
 	}
 
 	function editar(modelo) {
-		vm.abrirForm();
-
-		vm.modelo = angular.extend({}, modelo, {
-			data: new Date(modelo.data)
-		});
+		sidenavService.escolher(vm.opcaoForm, modelo);
 	}
 
 	function excluir(modelo) {
