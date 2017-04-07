@@ -6,7 +6,10 @@
   "scripts": {
     "test": "jasmine",
     "prestart": "./node_modules/.bin/webpack",
-    "start": "electron ."
+    "start": "electron .",
+    "release:windows": "./node_modules/.bin/electron-packager ./ --platform=win32 --arch=ia32,x64",
+    "release:linux": "./node_modules/.bin/electron-packager ./ --platform=linux --arch=ia32,x64",
+    "release:macos": "./node_modules/.bin/electron-packager ./ --platform=darwin,mas --arch=ia32,x64"
   },
   "repository": "https://github.com/wolmir/seg-unipampa",
   "keywords": [
