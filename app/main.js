@@ -74,6 +74,7 @@ function listaCtrl($rootScope, modelosService, $timeout, sidenavService) {
 	vm.abrirLista = abrirLista;
 	vm.editar = editar;
 	vm.excluir = excluir;
+	vm.pesquisa = '';
 
 	init();
 

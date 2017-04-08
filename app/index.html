@@ -261,7 +261,7 @@ Biblioteca usada: W3-html, w3-css
 										<label class="w3-label">
 											<span class="fa fa-search"></span> Pesquisar
 										</label>
-										<input type="text" class="w3-input">
+										<input type="text" class="w3-input" ng-model="vm.pesquisa">
 									</div>
 
 									<table class="w3-table w3-bordered w3-striped w3-hoverable">
@@ -274,7 +274,7 @@ Biblioteca usada: W3-html, w3-css
 										</thead>
 
 										<tbody>
-											<tr ng-repeat="modelo in vm.modelos">
+											<tr ng-repeat="modelo in vm.modelos | filter:vm.pesquisa">
 												<td>{{modelo.nome}}</td>
 												<td>{{modelo.projeto}}</td>
 												<td>
